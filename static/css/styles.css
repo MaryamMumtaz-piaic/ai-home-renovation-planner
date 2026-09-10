@@ -807,7 +807,7 @@ textarea.input { min-height: 120px; padding-block: var(--space-3); resize: verti
    promise ("plan the renovation before you spend the money"). Final state
    is fully visible by default; motion is progressive enhancement only.
    --------------------------------------------------------------------- */
-.hero-scene { position: relative; width: 100%; max-width: 480px; aspect-ratio: 1 / 1; }
+.hero-scene { position: relative; width: 100%; max-width: min(400px, 42vh); aspect-ratio: 1 / 1; margin-inline: auto; }
 .hero-scene svg { width: 100%; height: 100%; overflow: visible; }
 
 .hero-scene .plan-line { stroke: var(--color-charcoal); stroke-width: 1.1; fill: none; opacity: 0.28; }
