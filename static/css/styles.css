@@ -807,7 +807,7 @@ textarea.input { min-height: 120px; padding-block: var(--space-3); resize: verti
    promise ("plan the renovation before you spend the money"). Final state
    is fully visible by default; motion is progressive enhancement only.
    --------------------------------------------------------------------- */
-.hero-scene { position: relative; width: 100%; max-width: 560px; aspect-ratio: 1 / 1; }
+.hero-scene { position: relative; width: 100%; max-width: 480px; aspect-ratio: 1 / 1; }
 .hero-scene svg { width: 100%; height: 100%; overflow: visible; }
 
 .hero-scene .plan-line { stroke: var(--color-charcoal); stroke-width: 1.1; fill: none; opacity: 0.28; }
@@ -831,6 +831,13 @@ textarea.input { min-height: 120px; padding-block: var(--space-3); resize: verti
 .hero-scene .scene-plant-leaf { stroke: var(--color-olive); stroke-width: 2; stroke-linecap: round; fill: none; }
 .hero-scene .scene-art-frame { stroke: var(--color-charcoal); stroke-width: 1.2; fill: var(--color-warm-white); }
 .hero-scene .scene-art-line { stroke: var(--color-terracotta); stroke-width: 1.2; }
+.hero-scene .scene-table { fill: var(--color-brown); }
+.hero-scene .scene-table-leg { stroke: var(--color-brown); stroke-width: 2; stroke-linecap: round; }
+.hero-scene .scene-book-a { fill: var(--color-terracotta); }
+.hero-scene .scene-book-b { fill: var(--color-olive); }
+.hero-scene .scene-book-c { fill: var(--color-brass); }
+.hero-scene .scene-vase { fill: var(--color-olive-dark); }
+.hero-scene .scene-runner { fill: var(--color-stone); opacity: 0.4; }
 .hero-scene .scene-badge {
   font-family: var(--font-data); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
   fill: var(--color-charcoal); opacity: 0.55;
@@ -1148,7 +1155,7 @@ textarea.input { min-height: 120px; padding-block: var(--space-3); resize: verti
   :root { --fs-5xl: 3.75rem; --fs-4xl: 3rem; --fs-3xl: 2.375rem; }
 }
 @media (max-width: 640px) {
-  :root { --fs-4xl: 2.5rem; --fs-3xl: 2rem; --fs-2xl: 1.75rem; --fs-xl: 1.375rem; }
+  :root { --fs-5xl: 2.75rem; --fs-4xl: 2.5rem; --fs-3xl: 2rem; --fs-2xl: 1.75rem; --fs-xl: 1.375rem; }
   .container { padding-inline: var(--space-4); }
   .plan-section { padding-block: var(--space-7); }
 }

@@ -6,19 +6,19 @@
 
 <!-- ============ HERO ============ -->
 <section class="container" style="padding-top: 3.5rem; padding-bottom: 4rem;">
-  <div style="display:grid; grid-template-columns: 1fr; gap: 3rem; align-items:center;" class="lg:grid-cols-2">
+  <div style="display:grid; grid-template-columns: 1fr; gap: 3rem; align-items:center;" class="lg:grid-cols-[1.15fr_1fr]">
     <div>
       <span class="eyebrow">AI Renovation Planning Workspace</span>
-      <h1 style="margin-top: 1.25rem; max-width: 14ch;">Plan the renovation. <br />Before you spend the money.</h1>
-      <p class="section-lede" style="margin-top: 1.5rem; font-size: var(--fs-md);">Turn your room, budget, and ideas into a complete renovation plan — design concept, budget, materials, shopping list, and timeline — built by specialized AI agents in minutes.</p>
-      <div style="display:flex; flex-wrap:wrap; gap: 1rem; margin-top: 2rem;">
+      <h1 style="margin-top: 1.25rem; max-width: 18ch; font-size: var(--fs-5xl);">Plan the renovation before you spend the money.</h1>
+      <p class="section-lede" style="margin-top: 1.5rem; font-size: var(--fs-lg); max-width: 46ch;">Turn your room, budget, and ideas into a complete renovation plan — design concept, budget, materials, shopping list, and timeline — built by specialized AI agents in minutes.</p>
+      <div style="display:flex; flex-wrap:wrap; gap: 1rem; margin-top: 2.25rem;">
         <a href="/planner" class="btn btn-accent btn-lg">Plan My Renovation</a>
         <a href="/inspiration" class="btn btn-secondary btn-lg">Explore Ideas</a>
       </div>
-      <div style="display:flex; gap:2rem; margin-top: 2.5rem; flex-wrap:wrap;">
-        <div><div class="stat-value font-display" style="font-size: var(--fs-xl);">13</div><div class="text-tertiary" style="font-size:var(--fs-xs);">Room types</div></div>
-        <div><div class="stat-value font-display" style="font-size: var(--fs-xl);">15</div><div class="text-tertiary" style="font-size:var(--fs-xs);">Design styles</div></div>
-        <div><div class="stat-value font-display" style="font-size: var(--fs-xl);">8</div><div class="text-tertiary" style="font-size:var(--fs-xs);">AI planning agents</div></div>
+      <div style="display:flex; gap:2.5rem; margin-top: 2.75rem; flex-wrap:wrap;">
+        <div><div class="stat-value font-display" style="font-size: var(--fs-2xl);">13</div><div class="text-tertiary" style="font-size:var(--fs-xs);">Room types</div></div>
+        <div><div class="stat-value font-display" style="font-size: var(--fs-2xl);">15</div><div class="text-tertiary" style="font-size:var(--fs-xs);">Design styles</div></div>
+        <div><div class="stat-value font-display" style="font-size: var(--fs-2xl);">8</div><div class="text-tertiary" style="font-size:var(--fs-xs);">AI planning agents</div></div>
       </div>
     </div>
 
@@ -40,9 +40,10 @@
           <line x1="240" y1="250" x2="330" y2="250" pathLength="900" class="plan-line plan-dash anim-draw" style="animation-delay:.5s;" />
           <line x1="240" y1="290" x2="300" y2="290" pathLength="900" class="plan-line plan-dash anim-draw" style="animation-delay:.55s;" />
 
-          <!-- Room: resolves inside the plan -->
-          <rect x="40" y="40" width="180" height="180" class="scene-floor-fill anim-fade" style="--fade-delay:.68s;" />
+          <!-- Room: resolves inside the plan, filling the full outline -->
+          <rect x="40" y="40" width="320" height="320" class="scene-floor-fill anim-fade" style="--fade-delay:.62s;" />
           <ellipse cx="128" cy="168" rx="66" ry="24" class="scene-rug anim-fade" style="--fade-delay:.78s;" />
+          <rect x="70" y="250" width="150" height="14" rx="6" class="scene-runner anim-fade" style="--fade-delay:.82s;" />
 
           <!-- Sofa -->
           <rect x="55" y="152" width="150" height="40" rx="9" class="scene-sofa-body anim-rise" style="--rise-delay:.86s;" />
@@ -67,6 +68,17 @@
           <!-- Wall art -->
           <rect x="258" y="242" width="46" height="34" rx="1" class="scene-art-frame anim-fade" style="--fade-delay:1.16s;" />
           <line x1="264" y1="270" x2="298" y2="250" class="scene-art-line anim-fade" style="--fade-delay:1.2s;" />
+
+          <!-- Console table + books + vase (fills the lower-left) -->
+          <rect x="90" y="276" width="92" height="10" rx="2" class="scene-table anim-rise" style="--rise-delay:1.06s;" />
+          <line x1="100" y1="286" x2="100" y2="316" class="scene-table-leg anim-draw" pathLength="900" style="animation-delay:1.12s;" />
+          <line x1="172" y1="286" x2="172" y2="316" class="scene-table-leg anim-draw" pathLength="900" style="animation-delay:1.16s;" />
+          <rect x="106" y="256" width="36" height="8" rx="1.5" class="scene-book-a anim-rise" style="--rise-delay:1.2s;" />
+          <rect x="110" y="248" width="30" height="8" rx="1.5" class="scene-book-b anim-rise" style="--rise-delay:1.24s;" />
+          <rect x="104" y="240" width="38" height="8" rx="1.5" class="scene-book-c anim-rise" style="--rise-delay:1.28s;" />
+          <rect x="156" y="250" width="12" height="26" rx="4" class="scene-vase anim-rise" style="--rise-delay:1.3s;" />
+          <path d="M162 250 Q168 236 180 230" pathLength="900" class="scene-plant-leaf anim-draw" style="animation-delay:1.34s;" />
+          <path d="M162 250 Q158 234 148 226" pathLength="900" class="scene-plant-leaf anim-draw" style="animation-delay:1.38s;" />
 
           <!-- Plant -->
           <rect x="300" y="298" width="20" height="18" rx="3" class="scene-plant-pot anim-rise" style="--rise-delay:1.22s;" />
