@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}About — AI Home Renovation Planner{% endblock %}
+{% block description %}How AI Home Renovation Planner works: AI renovation planning, budget planning, material alternatives, and execution planning.{% endblock %}
+
+{% block content %}
+<section class="container" style="padding-block: 3rem 5rem; max-width: 860px;">
+  <span class="eyebrow">About</span>
+  <h1 style="margin-top:.75rem;">A planning studio, not a chatbot.</h1>
+  <p class="section-lede" style="margin-top:1rem; font-size: var(--fs-md);">AI Home Renovation Planner turns a room description, goals, budget, and preferences into a structured renovation plan — built by specialized AI agents working together, then reviewed by an AI critic before it reaches you.</p>
+
+  <div style="display:flex; flex-direction:column; gap:2.5rem; margin-top:3rem;">
+    <div>
+      <h3>What the platform does</h3>
+      <p style="margin-top:.75rem;">It combines an AI interior design assistant, a renovation cost planner, material intelligence, a shopping planner, and an execution assistant into one workspace — so you can go from "I want to renovate my bedroom" to a complete, actionable plan without hiring anyone first.</p>
+    </div>
+    <div>
+      <h3>How AI renovation planning works</h3>
+      <p style="margin-top:.75rem;">Your answers from the planner become a renovation brief. An orchestrator passes only the relevant parts of that brief to specialized agents — design concept, space planning, materials, budget, shopping list, timeline, and execution — each returning structured, validated output. A critic agent then reviews the combined plan for budget conflicts, timeline conflicts, and missing steps before it's finalized.</p>
+    </div>
+    <div>
+      <h3>How budget planning works</h3>
+      <p style="margin-top:.75rem;">The budget agent allocates your target amount across materials, furniture, labor, lighting, decor, and contingency, and flags a budget risk level. These are <strong>planning estimates, not contractor quotations</strong> — actual costs vary by location, labor, materials, and availability.</p>
+    </div>
+    <div>
+      <h3>How material alternatives work</h3>
+      <p style="margin-top:.75rem;">The material library and material agent compare options by cost level, maintenance, durability, and style fit, and explain trade-offs rather than declaring one material universally best.</p>
+    </div>
+    <div>
+      <h3>How the execution plan is created</h3>
+      <p style="margin-top:.75rem;">The execution agent sequences tasks into before-renovation, during-renovation, installation, styling, and final-inspection stages, noting dependencies and where a qualified professional is recommended — especially for electrical, gas, structural, or major plumbing work.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:3rem; background: var(--bg-muted);">
+    <h4>What this platform is not</h4>
+    <p style="margin-top:.75rem;">It does not produce architectural drawings, engineering plans, construction approvals, or professional inspections, and it does not guarantee costs or timelines. For structural, electrical, gas, or major plumbing work, always consult a qualified professional.</p>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <a href="/planner" class="btn btn-accent btn-lg">Start Planning</a>
+  </div>
+</section>
+{% endblock %}

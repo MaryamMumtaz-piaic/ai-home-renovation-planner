@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Material Library — AI Home Renovation Planner{% endblock %}
+{% block description %}A structured reference library of renovation materials — cost level, maintenance, durability, and style compatibility.{% endblock %}
+
+{% block content %}
+<section class="container" style="padding-block: 3rem 1rem;">
+  <span class="eyebrow">Material Library</span>
+  <h1 style="margin-top:.75rem;">Material Intelligence</h1>
+  <p class="section-lede" style="margin-top:.5rem;">Reference and planning data — not live supplier pricing.</p>
+
+  <form method="get" action="/materials" style="margin-top:2rem;" id="materials-search-form">
+    <div class="input-group" style="max-width:480px;">
+      <label for="materials-search-input" class="visually-hidden">Search materials</label>
+      <input class="input" type="search" id="materials-search-input" name="q" value="{{ query or '' }}" placeholder="Search materials…" />
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </form>
+
+  <div id="materials-category-pills" style="display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.5rem;">
+    <a href="/materials{{ '?q=' + query if query }}" class="pill-filter {{ 'is-active' if not selected_category else '' }}" aria-pressed="{{ 'true' if not selected_category else 'false' }}">All</a>
+    {% for cat in categories %}
+    <a href="/materials?category={{ cat|urlencode }}{{ '&q=' + query if query }}" class="pill-filter {{ 'is-active' if selected_category == cat else '' }}" aria-pressed="{{ 'true' if selected_category == cat else 'false' }}">{{ cat }}</a>
+    {% endfor %}
+  </div>
+
+  <div id="materials-grid" class="option-grid" style="grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); margin-top: 2.5rem;">
+    {% for material in materials %}
+    <a href="/material/{{ material.slug }}" class="card card-hover material-card">
+      <div class="badge badge-neutral">{{ material.category }}</div>
+      <div style="font-family: var(--font-display); font-size: var(--fs-md); margin-top:.75rem;">{{ material.name }}</div>
+      <p class="option-desc" style="margin-top:.5rem; -webkit-line-clamp:3; display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden;">{{ material.description }}</p>
+      <div style="display:flex; gap:.5rem; margin-top:1rem; flex-wrap:wrap;">
+        <span class="badge badge-cost-{{ material.cost_level|lower }}">{{ material.cost_level }} cost</span>
+        <span class="badge badge-risk-{{ material.maintenance|lower }}">{{ material.maintenance }} maintenance</span>
+      </div>
+    </a>
+    {% else %}
+    <div class="empty-state" style="grid-column: 1 / -1;">
+      <div class="empty-state-title">No materials found.</div>
+      <p class="empty-state-body">Try a different search term or category.</p>
+      <a href="/materials" class="btn btn-secondary">Clear Filters</a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/materials.js"></script>
+{% endblock %}

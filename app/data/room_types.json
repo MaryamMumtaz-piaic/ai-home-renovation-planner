@@ -1,0 +1,80 @@
+[
+  {
+    "id": "living_room",
+    "name": "Living Room",
+    "icon": "sofa",
+    "description": "The central gathering space for relaxing, entertaining, and everyday life."
+  },
+  {
+    "id": "bedroom",
+    "name": "Bedroom",
+    "icon": "bed",
+    "description": "A restful private retreat built around comfort, storage, and calm lighting."
+  },
+  {
+    "id": "kitchen",
+    "name": "Kitchen",
+    "icon": "kitchen",
+    "description": "The functional heart of the home, balancing workflow, storage, and style."
+  },
+  {
+    "id": "bathroom",
+    "name": "Bathroom",
+    "icon": "bath",
+    "description": "A moisture-conscious space where fixtures, surfaces, and lighting must work together."
+  },
+  {
+    "id": "dining_room",
+    "name": "Dining Room",
+    "icon": "dining-table",
+    "description": "A space designed around shared meals, seating comfort, and ambient lighting."
+  },
+  {
+    "id": "home_office",
+    "name": "Home Office",
+    "icon": "desk",
+    "description": "A focused workspace that supports productivity, storage, and video calls."
+  },
+  {
+    "id": "entryway",
+    "name": "Entryway",
+    "icon": "door",
+    "description": "The first impression of the home, balancing storage with a welcoming feel."
+  },
+  {
+    "id": "balcony",
+    "name": "Balcony",
+    "icon": "balcony",
+    "description": "A compact outdoor extension of the home for plants, seating, and fresh air."
+  },
+  {
+    "id": "outdoor_area",
+    "name": "Outdoor Area",
+    "icon": "tree",
+    "description": "Patios, yards, and courtyards designed for gathering and weather-resistant comfort."
+  },
+  {
+    "id": "nursery",
+    "name": "Nursery",
+    "icon": "crib",
+    "description": "A soothing, safety-conscious room designed around a growing child's needs."
+  },
+  {
+    "id": "guest_room",
+    "name": "Guest Room",
+    "icon": "guest-bed",
+    "description": "A flexible, welcoming space for visitors that can double as a multi-use room."
+  },
+  {
+    "id": "basement",
+    "name": "Basement",
+    "icon": "stairs",
+    "description": "An underused lower level with potential for storage, media, or living space."
+  },
+  {
+    "id": "other",
+    "name": "Other",
+    "icon": "home",
+    "description": "Any other space in the home that doesn't fit a standard room category."
+  }
+]

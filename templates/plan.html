@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+{% block title %}Your Renovation Plan — AI Home Renovation Planner{% endblock %}
+{% block description %}Your complete AI-generated renovation plan: design concept, budget, materials, shopping list, timeline, and execution plan.{% endblock %}
+
+{% block content %}
+<section class="container" style="padding-block: 2.5rem 1rem;">
+
+  <!-- Empty state shown when no plan exists in storage (plan.js toggles #plan-content / #plan-empty-state) -->
+  <div id="plan-empty-state" class="empty-state" style="display:none;">
+    <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-8h6v8"/></svg>
+    <div class="empty-state-title">No renovation plan yet.</div>
+    <p class="empty-state-body">Start the planner to generate your first AI renovation plan.</p>
+    <a href="/planner" class="btn btn-accent">Start Planning</a>
+  </div>
+
+  <div id="plan-content">
+    <!-- ============ TOP SUMMARY BAR ============ -->
+    <div class="plan-summary-bar print-section" id="plan-summary-bar">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1.5rem;">
+        <div>
+          <span class="eyebrow">Your Renovation Plan</span>
+          <h1 id="plan-concept-name" style="margin-top:.75rem; font-size: var(--fs-3xl);">—</h1>
+          <p id="plan-design-summary" class="section-lede" style="margin-top:.5rem;"></p>
+        </div>
+        <div class="no-print" style="display:flex; gap:.75rem; flex-wrap:wrap;">
+          <button type="button" class="btn btn-secondary btn-sm" id="save-project-btn">Save Project</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="download-pdf-btn">Download PDF</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="print-plan-btn">Print</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="share-plan-btn">Share</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="copy-link-btn" style="display:none;">Copy Link</button>
+        </div>
+      </div>
+      <div class="plan-summary-grid">
+        <div><div class="plan-stat-label">Estimated Budget</div><div class="plan-stat-value" id="plan-estimated-budget">—</div></div>
+        <div><div class="plan-stat-label">Estimated Timeline</div><div class="plan-stat-value" id="plan-estimated-timeline">—</div></div>
+        <div><div class="plan-stat-label">Style</div><div class="plan-stat-value" id="plan-style">—</div></div>
+        <div><div class="plan-stat-label">Planning Confidence</div><div class="plan-stat-value" id="plan-design-match">—</div></div>
+        <div><div class="plan-stat-label">Budget Risk</div><div class="plan-stat-value" id="plan-budget-risk">—</div></div>
+      </div>
+    </div>
+
+    <!-- ============ BEFORE / AFTER CONCEPT ============ -->
+    <section class="plan-section print-section" id="before-after-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Design Direction</span><h2 style="margin-top:.5rem;">Current Space → Renovation Direction → Target Space</h2></div></div>
+      <p class="field-help" style="margin-bottom:1.5rem;">A design concept, not a photorealistic before/after rendering.</p>
+      <div class="transform-flow">
+        <div class="transform-block">
+          <div class="eyebrow">Current Space</div>
+          <p id="before-current-description" style="margin-top:1rem;"></p>
+          <div id="before-existing-issues"></div>
+        </div>
+        <div class="transform-arrow"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <div class="transform-block">
+          <div class="eyebrow">Target Space</div>
+          <p id="after-target-description" style="margin-top:1rem;"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DESIGN CONCEPT ============ -->
+    <section class="plan-section print-section" id="design-concept-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Design Concept</span><h2 style="margin-top:.5rem;" id="design-concept-name-heading">Design Concept</h2></div></div>
+      <p id="design-concept-summary" class="section-lede"></p>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap:1.5rem; margin-top:2rem;">
+        <div class="card"><h4>Color Palette</h4><div class="color-swatch-row" id="design-concept-color-palette" style="margin-top:1rem;"></div></div>
+        <div class="card"><h4>Materials</h4><ul id="design-concept-materials" style="margin-top:1rem; display:flex; flex-direction:column; gap:.4rem;"></ul></div>
+        <div class="card"><h4>Furniture Direction</h4><ul id="design-concept-furniture-direction" style="margin-top:1rem; display:flex; flex-direction:column; gap:.4rem;"></ul></div>
+        <div class="card"><h4>Lighting Direction</h4><ul id="design-concept-lighting-direction" style="margin-top:1rem; display:flex; flex-direction:column; gap:.4rem;"></ul></div>
+        <div class="card"><h4>Decor Direction</h4><ul id="design-concept-decor-direction" style="margin-top:1rem; display:flex; flex-direction:column; gap:.4rem;"></ul></div>
+        <div class="card"><h4>Design Priorities</h4><ul id="design-concept-priorities" style="margin-top:1rem; display:flex; flex-direction:column; gap:.4rem;"></ul></div>
+      </div>
+    </section>
+
+    <!-- ============ SPACE PLAN ============ -->
+    <section class="plan-section print-section" id="space-plan-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Space Plan</span><h2 style="margin-top:.5rem;">Room Layout &amp; Flow</h2></div></div>
+      <p id="space-plan-dimensions-summary" class="section-lede"></p>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; margin-top:1.5rem;">
+        <div class="card"><h4>Functional Zones</h4><div id="space-plan-zones" style="margin-top:1rem; display:flex; flex-direction:column; gap:.75rem;"></div></div>
+        <div class="card"><h4>Furniture Strategy</h4><ul id="space-plan-furniture-strategy" style="margin-top:1rem; display:flex; flex-direction:column; gap:.4rem;"></ul></div>
+        <div class="card"><h4>Storage Strategy</h4><ul id="space-plan-storage-strategy" style="margin-top:1rem; display:flex; flex-direction:column; gap:.4rem;"></ul></div>
+        <div class="card"><h4>Movement Flow</h4><p id="space-plan-movement-flow" style="margin-top:1rem;"></p></div>
+        <div class="card"><h4>Lighting Zones</h4><ul id="space-plan-lighting-zones" style="margin-top:1rem; display:flex; flex-direction:column; gap:.4rem;"></ul></div>
+      </div>
+      <p class="field-help" id="space-plan-note" style="margin-top:1.5rem;"></p>
+    </section>
+
+    <!-- ============ BUDGET DASHBOARD ============ -->
+    <section class="plan-section print-section" id="budget-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Budget Dashboard</span><h2 style="margin-top:.5rem;">Total Estimate: <span id="budget-total-estimate">—</span></h2></div></div>
+      <div class="budget-summary">
+        <div class="budget-stat"><div class="stat-label">Budget Used</div><div class="stat-value" id="budget-used">—</div></div>
+        <div class="budget-stat"><div class="stat-label">Remaining</div><div class="stat-value" id="budget-remaining">—</div></div>
+        <div class="budget-stat"><div class="stat-label">Contingency</div><div class="stat-value" id="budget-contingency">—</div></div>
+        <div class="budget-stat"><div class="stat-label">Risk Level</div><div class="stat-value" id="budget-risk-badge">—</div></div>
+      </div>
+      <div class="budget-chart" id="budget-chart" style="margin-top:2rem; max-width:680px;"></div>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:1.5rem; margin-top:2rem;">
+        <div class="card"><h4>Potential Savings</h4><ul id="budget-savings-opportunities" style="margin-top:1rem; display:flex; flex-direction:column; gap:.4rem;"></ul></div>
+        <div class="card"><h4>Assumptions</h4><ul id="budget-assumptions" style="margin-top:1rem; display:flex; flex-direction:column; gap:.4rem;"></ul></div>
+      </div>
+      <p class="field-help" id="budget-disclaimer" style="margin-top:1.5rem;"></p>
+    </section>
+
+    <!-- ============ BUDGET SCENARIOS ============ -->
+    <section class="plan-section print-section no-print-scenarios" id="budget-scenarios-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Budget Scenarios</span><h2 style="margin-top:.5rem;">Compare Budget · Balanced · Premium</h2></div></div>
+      <div class="scenario-grid" id="budget-scenarios-grid"></div>
+    </section>
+
+    <!-- ============ MATERIAL COMPARISON ============ -->
+    <section class="plan-section print-section" id="material-comparison-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Materials</span><h2 style="margin-top:.5rem;">Recommendations &amp; Comparisons</h2></div></div>
+      <div id="material-recommendations-list" style="display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:1.25rem;"></div>
+      <div id="material-comparisons-list" style="margin-top:2rem; display:flex; flex-direction:column; gap:2rem;"></div>
+    </section>
+
+    <!-- ============ SHOPPING LIST ============ -->
+    <section class="plan-section print-section" id="shopping-list-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Shopping List</span><h2 style="margin-top:.5rem;">What to Buy</h2></div></div>
+      <div class="no-print" style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+        <select class="select" id="shopping-filter-category" style="max-width:220px;"><option value="all">All categories</option></select>
+        <select class="select" id="shopping-filter-priority" style="max-width:200px;">
+          <option value="all">All priorities</option>
+          <option value="essential">Essential</option>
+          <option value="recommended">Recommended</option>
+          <option value="optional">Optional</option>
+        </select>
+        <label class="option-card" style="flex-direction:row; align-items:center; padding:.5rem 1rem; min-height:auto;">
+          <input type="checkbox" id="shopping-show-optional" checked />
+          <span class="option-check"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5 8 14.5 16 6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="option-title" style="font-size:var(--fs-xs);">Show optional items</span>
+        </label>
+      </div>
+      <div id="shopping-list" style="display:flex; flex-direction:column;"></div>
+      <template id="shopping-item-template">
+        <label class="check-row shopping-item-row">
+          <input type="checkbox" class="shopping-item-checkbox" />
+          <span class="check-row-body">
+            <span class="check-row-title shopping-item-name"></span>
+            <span class="check-row-meta">
+              <span class="shopping-item-quantity"></span>
+              <span class="badge badge-neutral shopping-item-category"></span>
+              <span class="badge shopping-item-priority"></span>
+              <span class="shopping-item-cost tabular-nums"></span>
+            </span>
+            <span class="check-row-meta shopping-item-notes"></span>
+          </span>
+        </label>
+      </template>
+    </section>
+
+    <!-- ============ TIMELINE ============ -->
+    <section class="plan-section print-section" id="timeline-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Timeline</span><h2 style="margin-top:.5rem;">Estimated Duration: <span id="timeline-total-days">—</span></h2></div></div>
+      <div class="timeline" id="timeline-container"></div>
+      <template id="timeline-phase-template">
+        <div class="timeline-phase" data-status="not_started">
+          <div class="timeline-phase-marker"></div>
+          <div class="timeline-phase-card">
+            <div class="timeline-phase-days"></div>
+            <div class="timeline-phase-name" style="font-weight:700; margin-top:.25rem; font-family:var(--font-display); font-size:var(--fs-md);"></div>
+            <p class="timeline-phase-description text-secondary" style="margin-top:.4rem;"></p>
+            <div class="timeline-phase-tasks"></div>
+          </div>
+        </div>
+      </template>
+      <template id="timeline-task-template">
+        <div class="timeline-task-row">
+          <span class="timeline-task-name"></span>
+          <span class="status-btn-group" role="group" aria-label="Task status">
+            <button type="button" class="status-btn" data-status="not_started" aria-pressed="true">Not Started</button>
+            <button type="button" class="status-btn" data-status="in_progress" aria-pressed="false">In Progress</button>
+            <button type="button" class="status-btn" data-status="completed" aria-pressed="false">Completed</button>
+          </span>
+        </div>
+      </template>
+      <div class="card" style="margin-top:1.5rem;">
+        <h4>Critical Path</h4>
+        <ul id="timeline-critical-path" style="margin-top:1rem; display:flex; flex-direction:column; gap:.4rem;"></ul>
+      </div>
+      <p class="field-help" id="timeline-disclaimer" style="margin-top:1.5rem;"></p>
+    </section>
+
+    <!-- ============ EXECUTION CHECKLIST ============ -->
+    <section class="plan-section print-section" id="execution-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Execution Plan</span><h2 style="margin-top:.5rem;">Execution Checklist</h2></div></div>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap:1.5rem;">
+        <div class="card"><h4>Before Renovation</h4><ul id="execution-preparation-checklist" style="margin-top:1rem; display:flex; flex-direction:column; gap:.5rem;"></ul></div>
+        <div class="card"><h4>Final Inspection</h4><ul id="execution-final-inspection-checklist" style="margin-top:1rem; display:flex; flex-direction:column; gap:.5rem;"></ul></div>
+      </div>
+      <div style="margin-top:2rem;">
+        <h3>Tasks by Stage</h3>
+        <div style="display:flex; flex-direction:column; gap:2rem; margin-top:1rem;">
+          <div><h4>Before Renovation</h4><div id="execution-before_renovation" class="execution-stage-group" style="margin-top:1rem; display:flex; flex-direction:column; gap:.75rem;"></div></div>
+          <div><h4>During Renovation</h4><div id="execution-during_renovation" class="execution-stage-group" style="margin-top:1rem; display:flex; flex-direction:column; gap:.75rem;"></div></div>
+          <div><h4>Installation</h4><div id="execution-installation" class="execution-stage-group" style="margin-top:1rem; display:flex; flex-direction:column; gap:.75rem;"></div></div>
+          <div><h4>Styling</h4><div id="execution-styling" class="execution-stage-group" style="margin-top:1rem; display:flex; flex-direction:column; gap:.75rem;"></div></div>
+          <div><h4>Final Inspection</h4><div id="execution-final_inspection" class="execution-stage-group" style="margin-top:1rem; display:flex; flex-direction:column; gap:.75rem;"></div></div>
+        </div>
+      </div>
+      <template id="execution-task-template">
+        <div class="check-row execution-task-row">
+          <input type="checkbox" class="execution-task-checkbox" />
+          <span class="check-row-body">
+            <span class="check-row-title execution-task-name"></span>
+            <span class="check-row-meta execution-task-dependencies"></span>
+            <span class="check-row-meta execution-task-materials"></span>
+            <span class="badge badge-outline execution-task-professional" style="display:none;">Professional recommended</span>
+          </span>
+        </div>
+      </template>
+    </section>
+
+    <!-- ============ ADAPT MY PLAN ============ -->
+    <section class="plan-section no-print" id="adapt-plan-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Adapt My Plan</span><h2 style="margin-top:.5rem;">Ask the AI to adjust your plan</h2></div></div>
+      <div class="adapt-grid" id="adapt-plan-options">
+        {% for id, label in [
+          ("make_cheaper","Make it cheaper"),("make_luxurious","Make it more luxurious"),("finish_faster","Finish faster"),
+          ("more_sustainable","Use more sustainable materials"),("make_minimalist","Make it minimalist"),("add_storage","Add more storage"),
+          ("keep_existing_furniture","Keep existing furniture"),("reduce_construction","Reduce construction work"),
+          ("change_color_palette","Change color palette")
+        ] %}
+        <button type="button" class="adapt-btn" data-adaptation="{{ id }}">{{ label }}</button>
+        {% endfor %}
+      </div>
+      <div id="adapt-plan-result" class="whatif-result" style="margin-top:1.5rem;"></div>
+    </section>
+
+    <!-- ============ WHAT-IF MODE ============ -->
+    <section class="plan-section no-print" id="whatif-section">
+      <div class="plan-section-head"><div><span class="eyebrow">What-If Mode</span><h2 style="margin-top:.5rem;">Ask a "what if" question</h2></div></div>
+      <p class="section-lede">e.g. "What if I reduce the budget by 20%?" or "What if I keep my existing sofa?"</p>
+      <div style="display:flex; gap:1rem; margin-top:1rem; flex-wrap:wrap;">
+        <label for="whatif-input" class="visually-hidden">What-if question</label>
+        <textarea class="input" id="whatif-input" style="flex:1; min-width:240px;" placeholder="What if I reduce the budget by 20%?"></textarea>
+        <button type="button" class="btn btn-accent" id="whatif-submit-btn" style="align-self:flex-start;">Calculate Impact</button>
+      </div>
+      <div class="whatif-result" id="whatif-result" style="margin-top:1.5rem;">
+        <div class="eyebrow">Change Impact</div>
+        <div class="impact-grid">
+          <div class="impact-metric"><div class="impact-label">Budget</div><div class="impact-value" id="whatif-budget-impact">—</div></div>
+          <div class="impact-metric"><div class="impact-label">Timeline</div><div class="impact-value" id="whatif-timeline-impact">—</div></div>
+          <div class="impact-metric"><div class="impact-label">Design</div><div class="impact-value" id="whatif-design-impact">—</div></div>
+          <div class="impact-metric"><div class="impact-label">Functionality</div><div class="impact-value" id="whatif-functionality-impact">—</div></div>
+        </div>
+        <div class="eyebrow" style="margin-top:1rem;">Recommendation</div>
+        <p id="whatif-recommendation" style="margin-top:.5rem;"></p>
+      </div>
+    </section>
+
+    <!-- ============ ALTERNATIVES ============ -->
+    <section class="plan-section print-section" id="alternatives-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Alternatives</span><h2 style="margin-top:.5rem;">Other Ways to Approach This</h2></div></div>
+      <div class="scenario-grid" id="alternatives-list"></div>
+    </section>
+
+    <!-- ============ AI RECOMMENDATIONS ============ -->
+    <section class="plan-section print-section" id="ai-recommendations-section">
+      <div class="plan-section-head"><div><span class="eyebrow">AI Recommendations</span><h2 style="margin-top:.5rem;">Recommended Next Steps</h2></div></div>
+      <ul id="ai-recommendations-list" style="display:flex; flex-direction:column; gap:.6rem;"></ul>
+    </section>
+
+    <!-- ============ ASSUMPTIONS ============ -->
+    <section class="plan-section print-section" id="assumptions-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Assumptions</span><h2 style="margin-top:.5rem;">What This Plan Assumes</h2></div></div>
+      <ul id="assumptions-list" style="display:flex; flex-direction:column; gap:.6rem;"></ul>
+    </section>
+
+    <!-- ============ WARNINGS ============ -->
+    <section class="plan-section print-section" id="warnings-section">
+      <div class="plan-section-head"><div><span class="eyebrow">Warnings</span><h2 style="margin-top:.5rem;">Please Note</h2></div></div>
+      <ul id="warnings-list" style="display:flex; flex-direction:column; gap:.6rem;"></ul>
+    </section>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/plan.js"></script>
+{% endblock %}

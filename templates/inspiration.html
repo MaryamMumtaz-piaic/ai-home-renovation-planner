@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Inspiration — AI Home Renovation Planner{% endblock %}
+{% block description %}Browse renovation inspiration by room, style, and budget tier.{% endblock %}
+
+{% block content %}
+<section class="container" style="padding-block: 3rem 1rem;">
+  <span class="eyebrow">Inspiration</span>
+  <h1 style="margin-top:.75rem;">Renovation Inspiration</h1>
+  <p class="section-lede" style="margin-top:.5rem;">Local planning concepts across rooms, styles, and budgets.</p>
+
+  <form method="get" action="/inspiration" style="margin-top:2rem;" id="inspiration-search-form">
+    <div class="input-group" style="max-width:480px;">
+      <label for="inspiration-search-input" class="visually-hidden">Search inspiration</label>
+      <input class="input" type="search" id="inspiration-search-input" name="q" value="{{ query or '' }}" placeholder="Search: modern bedroom, small kitchen, budget renovation…" />
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </form>
+
+  <div id="inspiration-category-pills" style="display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.5rem;">
+    <a href="/inspiration{{ '?q=' + query if query }}" class="pill-filter {{ 'is-active' if not selected_category else '' }}" aria-pressed="{{ 'true' if not selected_category else 'false' }}">All</a>
+    {% for cat in categories %}
+    <a href="/inspiration?category={{ cat|urlencode }}{{ '&q=' + query if query }}" class="pill-filter {{ 'is-active' if selected_category == cat else '' }}" aria-pressed="{{ 'true' if selected_category == cat else 'false' }}">{{ cat }}</a>
+    {% endfor %}
+  </div>
+
+  <div id="inspiration-grid" class="option-grid" style="grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); margin-top: 2.5rem;">
+    {% for item in inspiration_items %}
+    <article class="card card-hover inspiration-card" style="padding:0; overflow:hidden;">
+      <div class="card-media" style="margin:0; border-radius:0; aspect-ratio:4/3;">
+        <div class="placeholder-art" data-tone="{{ loop.index0 % 5 + 1 }}">
+          <span class="placeholder-label">{{ item.style|replace('_',' ')|title }}</span>
+        </div>
+      </div>
+      <div style="padding: 1.25rem;">
+        <div class="badge badge-neutral">{{ item.budget_tier|title }} budget</div>
+        <div style="font-family: var(--font-display); font-size: var(--fs-md); margin-top:.6rem;">{{ item.title }}</div>
+        <p class="option-desc" style="margin-top:.4rem;">{{ item.description }}</p>
+        <div style="display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.75rem;">
+          {% for c in item.category %}
+          <span class="badge badge-outline">{{ c }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </article>
+    {% else %}
+    <div class="empty-state" style="grid-column: 1 / -1;">
+      <div class="empty-state-title">No inspiration found.</div>
+      <p class="empty-state-body">Try a different search term or category.</p>
+      <a href="/inspiration" class="btn btn-secondary">Clear Filters</a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/inspiration.js"></script>
+{% endblock %}

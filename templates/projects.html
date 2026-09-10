@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}My Renovation Projects — AI Home Renovation Planner{% endblock %}
+{% block description %}Your saved renovation projects, stored locally in your browser.{% endblock %}
+
+{% block content %}
+<section class="container" style="padding-block: 3rem 5rem;">
+  <span class="eyebrow">Saved Projects</span>
+  <h1 style="margin-top:.75rem;">My Renovation Projects</h1>
+  <p class="section-lede" style="margin-top:.5rem;">Saved locally in this browser — no account required.</p>
+
+  <div id="projects-empty-state" class="empty-state" style="margin-top: 3rem; display:none;">
+    <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-8h6v8"/></svg>
+    <div class="empty-state-title">You haven't planned a renovation yet.</div>
+    <p class="empty-state-body">Start your first renovation plan.</p>
+    <a href="/planner" class="btn btn-accent">Start Planning</a>
+  </div>
+
+  <div id="projects-grid" class="option-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); margin-top: 3rem;"></div>
+
+  <template id="project-card-template">
+    <div class="card card-hover project-card">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <div class="badge badge-neutral project-card-room"></div>
+          <div class="project-card-name" style="font-family: var(--font-display); font-size: var(--fs-lg); margin-top:.6rem;"></div>
+        </div>
+        <div class="dropdown" style="position:relative;">
+          <button type="button" class="btn btn-ghost btn-icon project-card-menu-btn" aria-label="Project options" aria-haspopup="true" aria-expanded="false">⋯</button>
+          <div class="project-card-menu" style="display:none; position:absolute; right:0; top:100%; background:var(--bg-surface-raised); border:1px solid var(--border-default); border-radius:var(--radius-md); box-shadow:var(--shadow-md); min-width:160px; z-index:10; overflow:hidden;">
+            <button type="button" class="project-card-open-btn" style="display:block; width:100%; text-align:left; padding:.75rem 1rem;">Open</button>
+            <button type="button" class="project-card-rename-btn" style="display:block; width:100%; text-align:left; padding:.75rem 1rem;">Rename</button>
+            <button type="button" class="project-card-delete-btn" style="display:block; width:100%; text-align:left; padding:.75rem 1rem; color:var(--danger);">Delete</button>
+          </div>
+        </div>
+      </div>
+      <div class="check-row-meta" style="margin-top:1rem; gap:1rem;">
+        <span>Budget: <strong class="project-card-budget"></strong></span>
+        <span>Timeline: <strong class="project-card-timeline"></strong></span>
+      </div>
+      <div style="margin-top:1rem;">
+        <div class="budget-bar-track"><div class="budget-bar-fill project-card-progress-fill" style="width:0%;"></div></div>
+        <div class="field-help" style="margin-top:.4rem;"><span class="project-card-progress-label"></span> · Updated <span class="project-card-updated"></span></div>
+      </div>
+      <a href="#" class="btn btn-secondary btn-block project-card-open-link" style="margin-top:1.25rem;">Open Project</a>
+    </div>
+  </template>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/projects.js"></script>
+{% endblock %}

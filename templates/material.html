@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}{{ material.name }} — Material Library{% endblock %}
+{% block description %}{{ material.description }}{% endblock %}
+
+{% block content %}
+<section class="container" style="padding-block: 3rem 5rem;">
+  <a href="/materials" class="btn btn-ghost btn-sm">← Material Library</a>
+
+  <div style="display:grid; grid-template-columns: 1fr; gap: 3rem; margin-top:2rem;" class="lg:grid-cols-[2fr_1fr]">
+    <div>
+      <span class="eyebrow">{{ material.category }}</span>
+      <h1 style="margin-top:.75rem;">{{ material.name }}</h1>
+      <p class="section-lede" style="margin-top:1rem; font-size:var(--fs-md);">{{ material.description }}</p>
+
+      <div style="display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1.5rem;">
+        <span class="badge badge-cost-{{ material.cost_level|lower }}">Cost: {{ material.cost_level }}</span>
+        <span class="badge badge-risk-{{ material.maintenance|lower }}">Maintenance: {{ material.maintenance }}</span>
+        <span class="badge badge-risk-{{ material.durability|lower }}">Durability: {{ material.durability }}</span>
+      </div>
+
+      <div class="card" style="margin-top:2rem;">
+        <h4>Best Uses</h4>
+        <div style="display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem;">
+          {% for use in material.common_uses %}
+          <span class="badge badge-outline">{{ use }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1.5rem;">
+        <h4>Style Compatibility</h4>
+        <div style="display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem;">
+          {% for style in material.style_compatibility %}
+          <span class="badge badge-neutral">{{ style|replace('_',' ')|title }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      {% if material.ai_notes %}
+      <div class="card" style="margin-top:1.5rem; background: var(--bg-muted);">
+        <h4>AI Notes</h4>
+        <p style="margin-top:1rem;">{{ material.ai_notes }}</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <div>
+      <h3 style="font-size: var(--fs-md);">Alternatives</h3>
+      <div style="display:flex; flex-direction:column; gap:1rem; margin-top:1rem;">
+        {% for alt in alternatives %}
+        <a href="/material/{{ alt.slug }}" class="card card-hover">
+          <div class="badge badge-neutral">{{ alt.category }}</div>
+          <div style="font-family: var(--font-display); font-size: var(--fs-sm); margin-top:.6rem;">{{ alt.name }}</div>
+          <div style="display:flex; gap:.4rem; margin-top:.6rem;">
+            <span class="badge badge-cost-{{ alt.cost_level|lower }}">{{ alt.cost_level }}</span>
+          </div>
+        </a>
+        {% else %}
+        <p class="text-tertiary" style="font-size:var(--fs-sm);">No listed alternatives.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

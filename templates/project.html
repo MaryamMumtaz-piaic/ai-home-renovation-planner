@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Saved Project — AI Home Renovation Planner{% endblock %}
+{% block description %}Resume a saved renovation project.{% endblock %}
+
+{% block content %}
+<section class="container" style="padding-block: 2rem 1rem;" id="project-detail-header">
+  <a href="/projects" class="btn btn-ghost btn-sm no-print">← Back to Projects</a>
+</section>
+
+<!-- Reuses plan.html's DOM contract exactly so plan.js's render function can populate
+     either page from the same saved-project data (see ids inside #plan-content). -->
+<section class="container" style="padding-block: 1rem;">
+  <div id="plan-empty-state" class="empty-state" style="display:none;">
+    <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-8h6v8"/></svg>
+    <div class="empty-state-title">This project could not be found.</div>
+    <p class="empty-state-body">It may have been deleted, or the link is incorrect.</p>
+    <a href="/projects" class="btn btn-accent">Back to Projects</a>
+  </div>
+
+  <div id="plan-content">
+    <div class="plan-summary-bar print-section" id="plan-summary-bar">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1.5rem;">
+        <div>
+          <span class="eyebrow">Saved Project</span>
+          <h1 id="plan-concept-name" style="margin-top:.75rem; font-size: var(--fs-3xl);">—</h1>
+          <p id="plan-design-summary" class="section-lede" style="margin-top:.5rem;"></p>
+        </div>
+        <div class="no-print" style="display:flex; gap:.75rem; flex-wrap:wrap;">
+          <button type="button" class="btn btn-secondary btn-sm" id="save-project-btn">Save Changes</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="download-pdf-btn">Download PDF</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="print-plan-btn">Print</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="share-plan-btn">Share</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="copy-link-btn" style="display:none;">Copy Link</button>
+        </div>
+      </div>
+      <div class="plan-summary-grid">
+        <div><div class="plan-stat-label">Estimated Budget</div><div class="plan-stat-value" id="plan-estimated-budget">—</div></div>
+        <div><div class="plan-stat-label">Estimated Timeline</div><div class="plan-stat-value" id="plan-estimated-timeline">—</div></div>
+        <div><div class="plan-stat-label">Style</div><div class="plan-stat-value" id="plan-style">—</div></div>
+        <div><div class="plan-stat-label">Planning Confidence</div><div class="plan-stat-value" id="plan-design-match">—</div></div>
+        <div><div class="plan-stat-label">Budget Risk</div><div class="plan-stat-value" id="plan-budget-risk">—</div></div>
+      </div>
+    </div>
+
+    <p class="field-help" style="margin-top:2rem;">
+      This page mirrors the full plan workspace at <a href="/plan">/plan</a> — design concept, budget, materials,
+      shopping list, timeline, and execution plan sections use the identical element ids, populated by
+      <code>static/js/plan.js</code> / <code>static/js/projects.js</code> from this project's saved data
+      (read via <code>?id=</code> in the URL). See <code>/plan</code>'s template for the full section markup.
+    </p>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/plan.js"></script>
+<script src="/static/js/projects.js"></script>
+{% endblock %}

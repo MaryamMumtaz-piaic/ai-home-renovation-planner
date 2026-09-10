@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+{% block title %}Plan Renovation — AI Home Renovation Planner{% endblock %}
+{% block description %}A guided, 8-step AI renovation planning studio: space, goals, style, budget, materials, timeline, review, and your AI-generated plan.{% endblock %}
+
+{% block content %}
+{% set goal_options = [
+  ("modernize","Modernize"),("brighten","Make it brighter"),("increase_storage","Increase storage"),
+  ("improve_functionality","Improve functionality"),("feel_larger","Make it feel larger"),("luxury_look","Create a luxury look"),
+  ("reduce_maintenance","Reduce maintenance"),("improve_lighting","Improve lighting"),("improve_organization","Improve organization"),
+  ("increase_comfort","Increase comfort"),("prepare_for_resale","Prepare for resale"),("complete_makeover","Complete makeover"),
+  ("partial_renovation","Partial renovation")
+] %}
+{% set color_options = [
+  ("warm_neutrals","Warm neutrals","#D9C7A8"),("cool_neutrals","Cool neutrals","#C7CDD1"),("earth_tones","Earth tones","#A9825A"),
+  ("white_and_beige","White & beige","#EFE7D6"),("black_and_white","Black & white","#2B2621"),("green","Green","#6E7350"),
+  ("blue","Blue","#5C7A8A"),("terracotta","Terracotta","#BE6A41"),("natural_wood","Natural wood","#8A5A34"),("custom","Custom","#A6864F")
+] %}
+{% set budget_tiers = [
+  ("low","Low","Cost-conscious, prioritizes essentials"),("moderate","Moderate","Balanced quality and cost"),
+  ("premium","Premium","Higher-end materials and finishes"),("luxury","Luxury","Top-tier materials, minimal compromise"),
+  ("custom","Custom","Set your own target amount")
+] %}
+{% set material_categories = [
+  ("flooring","Flooring"),("wall_finish","Wall finish"),("paint","Paint"),("countertops","Countertops"),
+  ("cabinet_materials","Cabinet materials"),("hardware","Hardware"),("lighting","Lighting"),("furniture_materials","Furniture materials")
+] %}
+{% set material_pref_options = [
+  ("natural","Natural"),("budget_friendly","Budget-friendly"),("premium","Premium"),("low_maintenance","Low-maintenance"),
+  ("durable","Durable"),("eco_conscious","Eco-conscious"),("easy_to_clean","Easy to clean"),("custom","Custom")
+] %}
+{% set steps = ["Space","Goals","Style","Budget","Materials","Timeline","Review","AI Plan"] %}
+
+<section class="container" style="padding-top: 2.5rem; padding-bottom: 1rem;">
+  <span class="eyebrow">Renovation Planner</span>
+  <h1 style="margin-top: .75rem; font-size: var(--fs-3xl);">Let's plan your renovation.</h1>
+  <p class="section-lede" style="margin-top:.5rem;">Answer a few questions about your space — the AI orchestrator handles the rest.</p>
+
+  <nav class="stepper" id="planner-stepper" aria-label="Planner progress" style="margin-top: 2.5rem;">
+    {% for label in steps %}
+    <div class="stepper-step" data-step-target="{{ loop.index }}" data-state="{{ 'active' if loop.index == 1 else 'upcoming' }}">
+      <div class="stepper-dot">{{ loop.index }}</div>
+      <div class="stepper-label">{{ label }}</div>
+    </div>
+    {% endfor %}
+  </nav>
+</section>
+
+<section class="container" style="padding-bottom: 6rem;">
+  <form id="planner-form" novalidate>
+
+    <!-- STEP 1: SPACE -->
+    <div class="planner-step" data-step="1" data-active="true">
+      <h2>What are you renovating?</h2>
+      <p class="section-lede" style="margin-top:.5rem; margin-bottom:2rem;">Select a room type, then tell us about the space as it exists today.</p>
+
+      <div class="option-grid" id="room-type-options" role="radiogroup" aria-label="Room type">
+        {% for room in room_types %}
+        <label class="option-card">
+          <input type="radio" name="room_type" id="room-type-{{ room.id }}" value="{{ room.id }}" {% if loop.first %}checked{% endif %} />
+          <span class="option-check"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5 8 14.5 16 6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="9" width="18" height="11" rx="1"/><path d="M3 9 12 3l9 6"/></svg></span>
+          <span class="option-title">{{ room.name }}</span>
+          <span class="option-desc">{{ room.description }}</span>
+        </label>
+        {% endfor %}
+      </div>
+
+      <hr class="rule" />
+
+      <h3>Tell us about your current space</h3>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap:1rem; margin-top:1.5rem;">
+        <div class="field">
+          <label class="field-label" for="dim-length">Length</label>
+          <input class="input" type="number" min="0" step="0.1" id="dim-length" name="dim_length" />
+        </div>
+        <div class="field">
+          <label class="field-label" for="dim-width">Width</label>
+          <input class="input" type="number" min="0" step="0.1" id="dim-width" name="dim_width" />
+        </div>
+        <div class="field">
+          <label class="field-label" for="dim-height">Height</label>
+          <input class="input" type="number" min="0" step="0.1" id="dim-height" name="dim_height" />
+        </div>
+        <div class="field">
+          <label class="field-label" for="dim-unit">Unit</label>
+          <select class="select" id="dim-unit" name="dim_unit">
+            <option value="ft" selected>Feet (ft)</option>
+            <option value="m">Meters (m)</option>
+          </select>
+        </div>
+      </div>
+      <label class="option-card" style="flex-direction:row; align-items:center; max-width:360px; margin-top:1rem;">
+        <input type="checkbox" id="dim-unknown" name="dim_unknown" />
+        <span class="option-check"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5 8 14.5 16 6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="option-title" style="font-size:var(--fs-sm);">I don't know the exact dimensions</span>
+      </label>
+
+      <div class="field" style="margin-top:1.5rem;">
+        <label class="field-label" for="current-condition">Current condition</label>
+        <textarea class="input" id="current-condition" name="current_condition" placeholder="e.g. Dated but structurally sound, worn carpet, dim lighting…"></textarea>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:1rem;">
+        <div class="field">
+          <label class="field-label" for="existing-flooring">Existing flooring</label>
+          <input class="input" type="text" id="existing-flooring" name="existing_flooring" />
+        </div>
+        <div class="field">
+          <label class="field-label" for="existing-walls">Existing walls</label>
+          <input class="input" type="text" id="existing-walls" name="existing_walls" />
+        </div>
+        <div class="field">
+          <label class="field-label" for="existing-lighting">Existing lighting</label>
+          <input class="input" type="text" id="existing-lighting" name="existing_lighting" />
+        </div>
+        <div class="field">
+          <label class="field-label" for="windows-doors">Windows / doors</label>
+          <input class="input" type="text" id="windows-doors" name="windows_doors" />
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="structural-constraints">Major structural constraints</label>
+        <textarea class="input" id="structural-constraints" name="structural_constraints" placeholder="e.g. Load-bearing wall on the north side…"></textarea>
+      </div>
+
+      <h3 style="margin-top:1.5rem;">Existing furniture you want to keep, replace, or aren't sure about</h3>
+      <div id="existing-furniture-list" style="display:flex; flex-direction:column; gap:.75rem; margin-top:1rem;"></div>
+      <button type="button" class="btn btn-secondary btn-sm" id="add-furniture-btn" style="margin-top:1rem;">+ Add furniture item</button>
+      <template id="furniture-row-template">
+        <div class="furniture-row" style="display:flex; gap:.75rem; align-items:center; flex-wrap:wrap;">
+          <input class="input furniture-name-input" type="text" placeholder="e.g. Sofa" style="flex:1; min-width:160px;" />
+          <select class="select furniture-action-select" style="max-width:160px;">
+            <option value="keep">Keep</option>
+            <option value="replace">Replace</option>
+            <option value="unsure" selected>Unsure</option>
+          </select>
+          <button type="button" class="btn btn-ghost btn-icon remove-furniture-btn" aria-label="Remove item">✕</button>
+        </div>
+      </template>
+    </div>
+
+    <!-- STEP 2: GOALS -->
+    <div class="planner-step" data-step="2">
+      <h2>What do you want to achieve?</h2>
+      <p class="section-lede" style="margin-top:.5rem; margin-bottom:2rem;">Select as many goals as apply.</p>
+      <div class="option-grid" id="goal-options">
+        {% for id, label in goal_options %}
+        <label class="option-card">
+          <input type="checkbox" name="goals" id="goal-{{ id }}" value="{{ id }}" />
+          <span class="option-check"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5 8 14.5 16 6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="option-title">{{ label }}</span>
+        </label>
+        {% endfor %}
+      </div>
+      <div class="field" style="margin-top:1.5rem; max-width:560px;">
+        <label class="field-label" for="goal-description">Describe your goal (optional)</label>
+        <textarea class="input" id="goal-description" name="goal_description" placeholder="Anything else you'd like the AI to understand about what you want…"></textarea>
+      </div>
+    </div>
+
+    <!-- STEP 3: STYLE -->
+    <div class="planner-step" data-step="3">
+      <h2>Choose a design style</h2>
+      <p class="section-lede" style="margin-top:.5rem; margin-bottom:2rem;">Pick the direction that feels right — you can refine it with a custom description.</p>
+      <div class="option-grid" id="style-options" style="grid-template-columns: repeat(auto-fill, minmax(200px,1fr));">
+        {% for style in design_styles %}
+        <label class="option-card">
+          <input type="radio" name="style" id="style-{{ style.id }}" value="{{ style.id }}" {% if loop.first %}checked{% endif %} />
+          <span class="option-check"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5 8 14.5 16 6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="option-title">{{ style.name }}</span>
+          <span class="option-desc">{{ style.description }}</span>
+        </label>
+        {% endfor %}
+      </div>
+      <div class="field" id="style-custom-wrap" data-show-if="custom" style="margin-top:1.5rem; max-width:560px;">
+        <label class="field-label" for="style-custom-description">Describe your custom style</label>
+        <textarea class="input" id="style-custom-description" name="style_custom_description" placeholder="e.g. Warm modern style with neutral colors, wood accents, and minimal furniture."></textarea>
+      </div>
+
+      <hr class="rule" />
+
+      <h3>Color preferences</h3>
+      <p class="field-help" style="margin-top:.25rem;">Optional — the AI will respect these where possible.</p>
+      <div style="margin-top:1rem;">
+        <div class="field-label">Colors I want</div>
+        <div class="swatch-grid" id="colors-wanted-options" style="margin-top:.5rem;">
+          {% for id, label, hex in color_options %}
+          <label class="swatch-option">
+            <input type="checkbox" name="colors_wanted" id="color-wanted-{{ id }}" value="{{ id }}" />
+            <span class="swatch-chip"><span class="swatch-dot" style="background:{{ hex }};"></span>{{ label }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+      <div style="margin-top:1.5rem;">
+        <div class="field-label">Colors I don't want</div>
+        <div class="swatch-grid" id="colors-avoided-options" style="margin-top:.5rem;">
+          {% for id, label, hex in color_options %}
+          <label class="swatch-option">
+            <input type="checkbox" name="colors_avoided" id="color-avoided-{{ id }}" value="{{ id }}" />
+            <span class="swatch-chip"><span class="swatch-dot" style="background:{{ hex }};"></span>{{ label }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="field" style="margin-top:1rem; max-width:560px;">
+        <label class="field-label" for="color-custom-notes">Color notes (optional)</label>
+        <input class="input" type="text" id="color-custom-notes" name="color_custom_notes" />
+      </div>
+    </div>
+
+    <!-- STEP 4: BUDGET -->
+    <div class="planner-step" data-step="4">
+      <h2>What's your renovation budget?</h2>
+      <p class="section-lede" style="margin-top:.5rem; margin-bottom:2rem;">Pick a tier, or set a custom target. These become <strong>Estimated Planning Cost</strong>, not live market prices.</p>
+      <div class="option-grid" id="budget-tier-options" style="grid-template-columns: repeat(auto-fill, minmax(180px,1fr));">
+        {% for id, label, desc in budget_tiers %}
+        <label class="option-card">
+          <input type="radio" name="budget_tier" id="budget-tier-{{ id }}" value="{{ id }}" {% if id == 'moderate' %}checked{% endif %} />
+          <span class="option-check"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5 8 14.5 16 6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="option-title">{{ label }}</span>
+          <span class="option-desc">{{ desc }}</span>
+        </label>
+        {% endfor %}
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:1rem; margin-top:1.5rem; max-width:520px;">
+        <div class="field">
+          <label class="field-label" for="budget-currency-select">Currency</label>
+          <select class="select" id="budget-currency-select" name="budget_currency">
+            <option value="PKR" selected>PKR</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="AED">AED</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="budget-max-amount">Maximum budget<span class="required">*</span></label>
+          <input class="input" type="number" min="0" step="1000" id="budget-max-amount" name="budget_max_amount" placeholder="500000" />
+        </div>
+      </div>
+
+      <h3 style="margin-top:2rem;">Estimated allocation preview</h3>
+      <p class="field-help" style="margin:.25rem 0 1rem;">Illustrative only — the AI plan will calculate your actual allocation.</p>
+      <div class="budget-chart" id="budget-preview-chart" style="max-width:560px;">
+        {% for cat, pct in [("Materials",35),("Furniture",25),("Labor",20),("Lighting",10),("Decor",5),("Contingency",5)] %}
+        <div class="budget-bar-row">
+          <div class="budget-bar-name">{{ cat }}</div>
+          <div class="budget-bar-track"><div class="budget-bar-fill" data-category="{{ cat|lower }}" style="width:{{ pct }}%;"></div></div>
+          <div class="budget-bar-amount">{{ pct }}%</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- STEP 5: MATERIALS -->
+    <div class="planner-step" data-step="5">
+      <h2>Material preferences</h2>
+      <p class="section-lede" style="margin-top:.5rem; margin-bottom:2rem;">Set a preference per category — the AI will recommend specific materials that match.</p>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:1.25rem;" id="material-preference-grid">
+        {% for cat_id, cat_label in material_categories %}
+        <div class="field">
+          <label class="field-label" for="material-pref-{{ cat_id }}">{{ cat_label }}</label>
+          <select class="select" id="material-pref-{{ cat_id }}" name="material_pref_{{ cat_id }}" data-category="{{ cat_id }}">
+            {% for pid, plabel in material_pref_options %}
+            <option value="{{ pid }}" {% if pid == 'budget_friendly' %}selected{% endif %}>{{ plabel }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="field" style="margin-top:1.5rem; max-width:560px;">
+        <label class="field-label" for="material-general-notes">Material notes (optional)</label>
+        <textarea class="input" id="material-general-notes" name="material_general_notes" placeholder="Any specific material requests or constraints…"></textarea>
+      </div>
+    </div>
+
+    <!-- STEP 6: TIMELINE -->
+    <div class="planner-step" data-step="6">
+      <h2>Set your timeline</h2>
+      <p class="section-lede" style="margin-top:.5rem; margin-bottom:2rem;">Durations in your final plan are estimates, not guarantees.</p>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:1rem; max-width:520px;">
+        <div class="field">
+          <label class="field-label" for="timeline-target-days">Target days (optional)</label>
+          <input class="input" type="number" min="1" id="timeline-target-days" name="timeline_target_days" placeholder="14" />
+        </div>
+      </div>
+      <label class="option-card" style="flex-direction:row; align-items:center; max-width:360px;">
+        <input type="checkbox" id="timeline-flexible" name="timeline_flexible" checked />
+        <span class="option-check"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5 8 14.5 16 6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="option-title" style="font-size:var(--fs-sm);">My timeline is flexible</span>
+      </label>
+      <div class="field" style="margin-top:1.5rem; max-width:560px;">
+        <label class="field-label" for="timeline-notes">Timeline notes (optional)</label>
+        <textarea class="input" id="timeline-notes" name="timeline_notes" placeholder="e.g. Need it done before a family visit on…"></textarea>
+      </div>
+    </div>
+
+    <!-- STEP 7: REVIEW -->
+    <div class="planner-step" data-step="7">
+      <h2>Your renovation brief</h2>
+      <p class="section-lede" style="margin-top:.5rem; margin-bottom:2rem;">Review everything before the AI builds your plan. You can edit any section.</p>
+      <div style="display:flex; flex-direction:column; gap:0;">
+        {% for label, target, spanid in [
+          ("Room","1","review-room-type"),("Dimensions","1","review-dimensions"),
+          ("Current space","1","review-current-space"),("Keep / replace furniture","1","review-keep-furniture"),
+          ("Goal","2","review-goals"),("Style","3","review-style"),("Colors","3","review-colors"),
+          ("Budget","4","review-budget"),("Materials","5","review-materials"),("Timeline","6","review-timeline")
+        ] %}
+        <div class="check-row" style="border-radius:0; border-left:none; border-right:none; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div class="check-row-meta" style="margin:0;">{{ label }}</div>
+            <div class="check-row-title" id="{{ spanid }}" style="text-decoration:none;">—</div>
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm review-edit-btn" data-edit-step="{{ target }}">Edit</button>
+        </div>
+        {% endfor %}
+      </div>
+      <button type="button" class="btn btn-accent btn-lg" id="generate-plan-btn" style="margin-top:2.5rem;">Generate My Renovation Plan</button>
+      <div id="planner-validation-error" class="field-error" style="display:none; margin-top:1rem;"></div>
+    </div>
+
+    <!-- STEP 8: AI PLAN (loading + result teaser) -->
+    <div class="planner-step" data-step="8">
+      <div class="ai-loading-panel" id="ai-loading-panel">
+        <h2 class="ai-loading-title">Creating Your Renovation Plan</h2>
+        <div class="loading-checklist">
+          {% for step_id, label in [
+            ("space","Understanding your room"),
+            ("design","Building your design concept"),
+            ("materials","Selecting materials"),
+            ("budget","Estimating your budget"),
+            ("shopping","Creating your shopping list"),
+            ("timeline","Building your timeline"),
+            ("execution","Planning execution steps"),
+            ("review","Reviewing the final plan")
+          ] %}
+          <div class="loading-item" data-loading-step="{{ step_id }}" data-state="{{ 'active' if loop.first else 'pending' }}">
+            <span class="loading-icon" aria-hidden="true"></span>
+            <span>{{ label }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div id="ai-generation-error" class="empty-state" style="display:none; margin-top:2rem;">
+        <div class="empty-state-title">Something went wrong building your plan.</div>
+        <p class="empty-state-body" id="ai-generation-error-message">Please try again — your answers have been kept.</p>
+        <button type="button" class="btn btn-accent" id="retry-generation-btn">Try Again</button>
+      </div>
+
+      <div id="ai-plan-ready-panel" style="display:none; text-align:center; max-width:560px; margin: 0 auto;">
+        <span class="eyebrow" style="justify-content:center;">Plan Ready</span>
+        <h2 style="margin-top:1rem;">Your renovation plan is ready.</h2>
+        <div id="result-concept-name" class="font-display" style="font-size:var(--fs-xl); margin-top:.75rem;"></div>
+        <div class="plan-summary-grid" style="margin-top:2rem;">
+          <div><div class="plan-stat-label">Budget</div><div class="plan-stat-value" id="result-budget"></div></div>
+          <div><div class="plan-stat-label">Timeline</div><div class="plan-stat-value" id="result-timeline"></div></div>
+          <div><div class="plan-stat-label">Design Match</div><div class="plan-stat-value" id="result-design-match"></div></div>
+          <div><div class="plan-stat-label">Budget Risk</div><div class="plan-stat-value" id="result-budget-risk"></div></div>
+        </div>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-top:2.5rem;">
+          <a href="/plan" class="btn btn-accent btn-lg" id="view-full-plan-btn">View Full Plan</a>
+          <button type="button" class="btn btn-secondary" id="save-project-from-planner-btn">Save Project</button>
+          <button type="button" class="btn btn-ghost" id="adapt-plan-from-planner-btn">Adapt Plan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Persistent step navigation -->
+    <div class="no-print" id="planner-nav" style="display:flex; justify-content:space-between; margin-top:3rem; border-top:1px solid var(--border-subtle); padding-top:2rem;">
+      <button type="button" class="btn btn-secondary" id="planner-prev-btn">Back</button>
+      <button type="button" class="btn btn-primary" id="planner-next-btn">Continue</button>
+    </div>
+  </form>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/planner.js"></script>
+{% endblock %}

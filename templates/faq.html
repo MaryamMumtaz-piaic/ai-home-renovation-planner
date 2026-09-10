@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}FAQ — AI Home Renovation Planner{% endblock %}
+{% block description %}Frequently asked questions about AI renovation planning, budgets, materials, and saved projects.{% endblock %}
+
+{% block content %}
+{% set faqs = [
+  ("How does the AI create renovation plans?","A set of specialized AI agents — design, space planning, materials, budget, shopping, timeline, and execution — each work on one part of your renovation brief, and a critic agent reviews the combined result before it's finalized."),
+  ("Are budget estimates exact?","No. Budgets are planning estimates, not contractor quotations. Actual costs vary by location, labor, materials, availability, and project conditions."),
+  ("Can I keep existing furniture?","Yes. In the planner you can list furniture you want to keep, replace, or are unsure about, and the AI will incorporate that into the plan where appropriate."),
+  ("Can I change the design style?","Yes, at any time from the planner, or by using Adapt My Plan on a generated plan to shift the style, palette, or budget tier."),
+  ("Can I compare materials?","Yes. The material library and your plan's Material Comparison section show cost, maintenance, durability, and style fit side by side, with AI trade-off explanations."),
+  ("Can I adjust the budget?","Yes. Change your budget tier or custom amount in the planner, or use What-If Mode on a generated plan to see the impact of a budget change before committing to it."),
+  ("Can I save renovation projects?","Yes. Projects are saved locally in your browser — no account is required. You can rename, delete, or reopen them from the Projects page."),
+  ("Does this replace an architect or contractor?","No. This is a planning assistant. It does not produce architectural drawings, engineering plans, or construction approvals, and for structural, electrical, gas, or major plumbing work you should consult a qualified professional.")
+] %}
+<section class="container" style="padding-block: 3rem 5rem; max-width: 780px;">
+  <span class="eyebrow">FAQ</span>
+  <h1 style="margin-top:.75rem;">Frequently Asked Questions</h1>
+
+  <div id="faq-accordion" style="margin-top: 2.5rem;">
+    {% for q, a in faqs %}
+    <div class="accordion-item" data-open="{{ 'true' if loop.first else 'false' }}">
+      <button type="button" class="accordion-trigger" aria-expanded="{{ 'true' if loop.first else 'false' }}">
+        <span>{{ q }}</span>
+        <span class="accordion-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="accordion-panel">
+        <div class="accordion-panel-inner"><p>{{ a }}</p></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div style="margin-top:3rem;">
+    <p class="text-secondary">Still have a question?</p>
+    <a href="/contact" class="btn btn-secondary" style="margin-top:1rem;">Contact Us</a>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.querySelectorAll('#faq-accordion .accordion-trigger').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var item = btn.closest('.accordion-item');
+    var open = item.getAttribute('data-open') === 'true';
+    item.setAttribute('data-open', String(!open));
+    btn.setAttribute('aria-expanded', String(!open));
+  });
+});
+</script>
+{% endblock %}

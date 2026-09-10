@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}AI Home Renovation Planner{% endblock %}</title>
+  <meta name="description" content="{% block description %}Plan a complete home renovation with AI — design concept, budget, materials, shopping list, and timeline, built around your room, style, and budget.{% endblock %}" />
+
+  <!-- Google Fonts: Fraunces (editorial display serif) + Manrope (humanist body/UI sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN for layout/spacing utilities (task.md section 2) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Design system: buttons, cards, forms, stepper, budget bars, timeline, toasts, print -->
+  <link rel="stylesheet" href="/static/css/styles.css" />
+
+  {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header id="navbar" data-menu-open="false">
+    <div class="container navbar-inner">
+      <a href="/" class="navbar-logo" aria-label="AI Home Renovation Planner — home">
+        <svg class="navbar-logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 17 16 6l12 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7 15v11h18V15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13 26v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Renovation&nbsp;Planner</span>
+      </a>
+
+      <nav class="navbar-links" aria-label="Primary">
+        <a class="navbar-link" href="/" {% if active_nav == 'home' %}aria-current="page"{% endif %}>Home</a>
+        <a class="navbar-link" href="/planner" {% if active_nav == 'planner' %}aria-current="page"{% endif %}>Plan Renovation</a>
+        <a class="navbar-link" href="/projects" {% if active_nav == 'projects' %}aria-current="page"{% endif %}>Projects</a>
+        <a class="navbar-link" href="/inspiration" {% if active_nav == 'inspiration' %}aria-current="page"{% endif %}>Inspiration</a>
+        <a class="navbar-link" href="/materials" {% if active_nav == 'materials' %}aria-current="page"{% endif %}>Materials</a>
+        <a class="navbar-link" href="/projects" {% if active_nav == 'saved' %}aria-current="page"{% endif %}>Saved</a>
+      </nav>
+
+      <div class="navbar-actions">
+        <form class="navbar-search" role="search" action="/inspiration" method="get" id="navbar-search-form">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.6"/><path d="m17 17-3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <label for="navbar-search-input" class="visually-hidden">Search rooms, styles, materials, inspiration</label>
+          <input id="navbar-search-input" name="q" type="search" placeholder="Search ideas, materials…" autocomplete="off" />
+        </form>
+        <a href="/planner" class="btn btn-accent btn-sm" id="start-planning-cta">Start Planning</a>
+        <button type="button" class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="navbar-toggle-bars"><span></span><span></span><span></span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <a class="mobile-menu-link" href="/">Home</a>
+      <a class="mobile-menu-link" href="/planner">Plan Renovation</a>
+      <a class="mobile-menu-link" href="/projects">Projects</a>
+      <a class="mobile-menu-link" href="/inspiration">Inspiration</a>
+      <a class="mobile-menu-link" href="/materials">Materials</a>
+      <a class="mobile-menu-link" href="/projects">Saved</a>
+      <a class="mobile-menu-link" href="/about">About</a>
+      <a class="mobile-menu-link" href="/faq">FAQ</a>
+      <a class="mobile-menu-link" href="/contact">Contact</a>
+      <form class="navbar-search mobile-menu-search" role="search" action="/inspiration" method="get">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.6"/><path d="m17 17-3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <label for="mobile-search-input" class="visually-hidden">Search</label>
+        <input id="mobile-search-input" name="q" type="search" placeholder="Search ideas, materials…" autocomplete="off" />
+      </form>
+      <a href="/planner" class="btn btn-accent btn-block" style="margin-top: 1.5rem;">Start Planning</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer no-print">
+    <div class="container" style="padding-block: 4rem 3rem;">
+      <div class="grid gap-10" style="display:grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 2.5rem;">
+        <div>
+          <div class="footer-brand">AI Home Renovation Planner</div>
+          <p class="footer-tagline" style="margin-top: .75rem;">Plan smarter. Renovate with confidence.</p>
+        </div>
+        <div>
+          <h4>Explore</h4>
+          <ul style="display:flex; flex-direction:column; gap:.6rem;">
+            <li><a href="/inspiration">Inspiration</a></li>
+            <li><a href="/materials">Materials</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/planner">Plan Renovation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>AI Tools</h4>
+          <ul style="display:flex; flex-direction:column; gap:.6rem;">
+            <li><a href="/planner">Renovation Planner</a></li>
+            <li><a href="/planner">Budget Planner</a></li>
+            <li><a href="/materials">Material Intelligence</a></li>
+            <li><a href="/planner">What-If Mode</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul style="display:flex; flex-direction:column; gap:.6rem;">
+            <li><a href="/about">About</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" style="padding-block: 1.25rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem;">
+        <span>&copy; 2026 AI Home Renovation Planner</span>
+        <span>Planning estimates only — not contractor quotations or architectural drawings.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="/static/js/main.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

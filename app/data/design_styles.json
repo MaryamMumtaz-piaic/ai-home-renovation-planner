@@ -1,0 +1,107 @@
+[
+  {
+    "id": "modern",
+    "name": "Modern",
+    "description": "Clean lines, uncluttered surfaces, and a neutral base punctuated by bold accents.",
+    "colors": ["charcoal", "warm white", "black", "muted brass"],
+    "materials": ["polished concrete", "glass", "matte metal", "engineered wood"]
+  },
+  {
+    "id": "minimalist",
+    "name": "Minimalist",
+    "description": "Pared-back interiors that favor function, negative space, and a restrained palette.",
+    "colors": ["white", "stone", "soft gray"],
+    "materials": ["light oak", "matte laminate", "concrete"]
+  },
+  {
+    "id": "scandinavian",
+    "name": "Scandinavian",
+    "description": "Light, airy, and cozy, blending natural wood tones with soft textiles and simple forms.",
+    "colors": ["white", "pale wood", "soft blue", "blush"],
+    "materials": ["light pine", "wool", "linen", "light oak"]
+  },
+  {
+    "id": "industrial",
+    "name": "Industrial",
+    "description": "Exposed structural elements, raw textures, and utilitarian furniture with a warehouse feel.",
+    "colors": ["charcoal", "rust", "raw steel gray"],
+    "materials": ["exposed brick", "black metal", "reclaimed wood", "concrete"]
+  },
+  {
+    "id": "japandi",
+    "name": "Japandi",
+    "description": "A fusion of Japanese minimalism and Scandinavian warmth, favoring calm, natural materials.",
+    "colors": ["warm beige", "charcoal", "soft sage"],
+    "materials": ["light wood", "bamboo", "linen", "matte ceramic"]
+  },
+  {
+    "id": "traditional",
+    "name": "Traditional",
+    "description": "Classic silhouettes, rich wood tones, and layered, formal detailing.",
+    "colors": ["deep brown", "burgundy", "cream", "gold"],
+    "materials": ["hardwood", "damask fabric", "brass", "marble"]
+  },
+  {
+    "id": "contemporary",
+    "name": "Contemporary",
+    "description": "A current, ever-evolving mix of clean forms, curated texture, and confident neutrals.",
+    "colors": ["warm gray", "black", "off-white"],
+    "materials": ["engineered stone", "mixed metals", "smooth veneer"]
+  },
+  {
+    "id": "luxury",
+    "name": "Luxury",
+    "description": "Elevated materials, tailored detailing, and a refined, high-end finish throughout.",
+    "colors": ["deep charcoal", "ivory", "champagne gold"],
+    "materials": ["marble", "velvet", "brushed brass", "natural stone"]
+  },
+  {
+    "id": "bohemian",
+    "name": "Bohemian",
+    "description": "Layered textiles, eclectic patterns, and a warm, collected-over-time character.",
+    "colors": ["terracotta", "mustard", "deep teal", "rust"],
+    "materials": ["rattan", "woven textiles", "reclaimed wood"]
+  },
+  {
+    "id": "mid_century_modern",
+    "name": "Mid-Century Modern",
+    "description": "Organic curves, tapered legs, and a warm mix of wood tones with bold accent colors.",
+    "colors": ["walnut brown", "mustard", "olive", "burnt orange"],
+    "materials": ["walnut", "teak", "molded plastic", "brass"]
+  },
+  {
+    "id": "rustic",
+    "name": "Rustic",
+    "description": "Natural, weathered textures and a warm, cabin-inspired sense of comfort.",
+    "colors": ["deep brown", "cream", "forest green"],
+    "materials": ["reclaimed wood", "stone", "wrought iron", "leather"]
+  },
+  {
+    "id": "coastal",
+    "name": "Coastal",
+    "description": "Breezy, light-filled interiors inspired by seaside living and natural textures.",
+    "colors": ["soft blue", "sandy beige", "white"],
+    "materials": ["light wood", "linen", "woven rattan", "rope detailing"]
+  },
+  {
+    "id": "classic",
+    "name": "Classic",
+    "description": "Timeless proportions and refined detailing that resist passing trends.",
+    "colors": ["cream", "navy", "warm wood tones"],
+    "materials": ["hardwood", "marble", "brass", "wool"]
+  },
+  {
+    "id": "eclectic",
+    "name": "Eclectic",
+    "description": "A confident, curated mix of eras, patterns, and materials unified by intention.",
+    "colors": ["varied", "jewel tones", "neutral base"],
+    "materials": ["mixed wood", "vintage textiles", "mixed metals"]
+  },
+  {
+    "id": "custom",
+    "name": "Custom",
+    "description": "A style defined entirely by your own description, blending influences as you choose.",
+    "colors": [],
+    "materials": []
+  }
+]
