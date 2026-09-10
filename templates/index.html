@@ -23,22 +23,58 @@
     </div>
 
     <div style="display:flex; justify-content:center;">
-      <div class="hero-plan" role="img" aria-label="Architectural floor plan illustration representing a renovation layout">
-        <svg viewBox="0 0 400 400" fill="none">
-          <rect x="40" y="40" width="320" height="320" class="plan-line" />
-          <rect x="40" y="40" width="180" height="180" class="plan-fill" />
-          <line x1="220" y1="40" x2="220" y2="220" class="plan-line" />
-          <line x1="40" y1="220" x2="360" y2="220" class="plan-line" />
-          <line x1="220" y1="220" x2="220" y2="360" class="plan-line plan-dash" />
-          <path d="M220 220 A40 40 0 0 1 260 260" class="plan-line" />
-          <line x1="290" y1="70" x2="330" y2="70" class="plan-line plan-line-accent" />
-          <line x1="70" y1="290" x2="70" y2="330" class="plan-line plan-line-accent" />
-          <circle cx="130" cy="130" r="4" class="plan-node" />
-          <circle cx="290" cy="290" r="4" class="plan-node" />
-          <text x="60" y="34" class="plan-dim-text">14&#39;–0&quot;</text>
-          <text x="366" y="130" class="plan-dim-text" transform="rotate(90 366 130)">12&#39;–0&quot;</text>
-          <line x1="240" y1="250" x2="330" y2="250" class="plan-line plan-dash" />
-          <line x1="240" y1="290" x2="300" y2="290" class="plan-line plan-dash" />
+      <div class="hero-scene" role="img" aria-label="Illustration of a room's architectural plan resolving into a furnished, renovated living room">
+        <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Blueprint: draws in first -->
+          <rect x="40" y="40" width="320" height="320" pathLength="900" class="plan-line anim-draw" style="--rise-delay:0s;" />
+          <line x1="220" y1="40" x2="220" y2="220" pathLength="900" class="plan-line anim-draw" style="animation-delay:.12s;" />
+          <line x1="40" y1="220" x2="360" y2="220" pathLength="900" class="plan-line anim-draw" style="animation-delay:.18s;" />
+          <line x1="220" y1="220" x2="220" y2="360" pathLength="900" class="plan-line plan-dash anim-draw" style="animation-delay:.26s;" />
+          <path d="M220 220 A40 40 0 0 1 260 260" pathLength="900" class="plan-line anim-draw" style="animation-delay:.3s;" />
+          <line x1="290" y1="70" x2="330" y2="70" pathLength="900" class="plan-line plan-line-accent anim-draw" style="animation-delay:.36s;" />
+          <line x1="70" y1="290" x2="70" y2="330" pathLength="900" class="plan-line plan-line-accent anim-draw" style="animation-delay:.4s;" />
+          <circle cx="130" cy="130" r="4" class="plan-node anim-fade" style="--fade-delay:.5s;" />
+          <circle cx="290" cy="290" r="4" class="plan-node anim-fade" style="--fade-delay:.55s;" />
+          <text x="60" y="34" class="plan-dim-text anim-fade" style="--fade-delay:.5s;">14&#39;–0&quot;</text>
+          <text x="366" y="130" class="plan-dim-text anim-fade" style="--fade-delay:.5s;" transform="rotate(90 366 130)">12&#39;–0&quot;</text>
+          <line x1="240" y1="250" x2="330" y2="250" pathLength="900" class="plan-line plan-dash anim-draw" style="animation-delay:.5s;" />
+          <line x1="240" y1="290" x2="300" y2="290" pathLength="900" class="plan-line plan-dash anim-draw" style="animation-delay:.55s;" />
+
+          <!-- Room: resolves inside the plan -->
+          <rect x="40" y="40" width="180" height="180" class="scene-floor-fill anim-fade" style="--fade-delay:.68s;" />
+          <ellipse cx="128" cy="168" rx="66" ry="24" class="scene-rug anim-fade" style="--fade-delay:.78s;" />
+
+          <!-- Sofa -->
+          <rect x="55" y="152" width="150" height="40" rx="9" class="scene-sofa-body anim-rise" style="--rise-delay:.86s;" />
+          <rect x="46" y="146" width="16" height="42" rx="4" class="scene-sofa-arm anim-rise" style="--rise-delay:.9s;" />
+          <rect x="198" y="146" width="16" height="42" rx="4" class="scene-sofa-arm anim-rise" style="--rise-delay:.92s;" />
+          <rect x="66" y="140" width="42" height="18" rx="4" class="scene-sofa-cushion anim-rise" style="--rise-delay:.96s;" />
+          <rect x="114" y="140" width="42" height="18" rx="4" class="scene-sofa-cushion anim-rise" style="--rise-delay:1s;" />
+
+          <!-- Floor lamp -->
+          <circle cx="204" cy="74" r="26" class="scene-lamp-glow" />
+          <line x1="204" y1="150" x2="204" y2="76" class="scene-lamp-pole anim-draw" pathLength="900" style="animation-delay:1.04s;" />
+          <path d="M190 76 L218 76 L210 60 L198 60 Z" class="scene-lamp-shade anim-rise" style="--rise-delay:1.12s;" />
+
+          <!-- Window + light -->
+          <rect x="288" y="58" width="62" height="96" rx="2" class="scene-window-frame anim-fade" style="--fade-delay:1s;" />
+          <line x1="319" y1="58" x2="319" y2="154" class="scene-window-mullion anim-fade" style="--fade-delay:1.05s;" />
+          <line x1="288" y1="106" x2="350" y2="106" class="scene-window-mullion anim-fade" style="--fade-delay:1.05s;" />
+          <line x1="288" y1="58" x2="230" y2="120" class="scene-ray" />
+          <line x1="300" y1="58" x2="255" y2="140" class="scene-ray" />
+          <line x1="315" y1="58" x2="285" y2="150" class="scene-ray" />
+
+          <!-- Wall art -->
+          <rect x="258" y="242" width="46" height="34" rx="1" class="scene-art-frame anim-fade" style="--fade-delay:1.16s;" />
+          <line x1="264" y1="270" x2="298" y2="250" class="scene-art-line anim-fade" style="--fade-delay:1.2s;" />
+
+          <!-- Plant -->
+          <rect x="300" y="298" width="20" height="18" rx="3" class="scene-plant-pot anim-rise" style="--rise-delay:1.22s;" />
+          <path d="M310 298 Q298 278 280 270" pathLength="900" class="scene-plant-leaf anim-draw" style="animation-delay:1.28s;" />
+          <path d="M310 298 Q322 274 338 264" pathLength="900" class="scene-plant-leaf anim-draw" style="animation-delay:1.34s;" />
+          <path d="M310 298 Q311 272 311 254" pathLength="900" class="scene-plant-leaf anim-draw" style="animation-delay:1.4s;" />
+
+          <text x="46" y="378" class="scene-badge anim-fade" style="--fade-delay:1.5s;">The plan, realized</text>
         </svg>
       </div>
     </div>
@@ -47,14 +83,37 @@
 
 <!-- ============ AI PLANNER TEASER ============ -->
 <section class="container" style="padding-block: 4rem;">
-  <div class="card" style="background: var(--color-charcoal); color: var(--text-inverse); border: none; padding: 3rem;">
-    <div style="display:grid; grid-template-columns: 1fr; gap:2rem; align-items:center;" class="md:grid-cols-[1.3fr_auto]">
+  <div class="card" style="background: var(--color-charcoal); color: var(--text-inverse); border: none; padding: 3rem;" data-reveal>
+    <div style="display:grid; grid-template-columns: 1fr; gap:3rem; align-items:center;" class="lg:grid-cols-[1fr_1.05fr]">
       <div>
         <span class="eyebrow" style="color: var(--color-brass);">AI Renovation Planner</span>
-        <h2 style="color: var(--text-inverse); margin-top: 1rem; max-width: 24ch;">Eight specialized AI agents turn your answers into a full renovation plan.</h2>
-        <p style="color: rgba(250,246,239,0.7); margin-top: 1rem; max-width: 60ch;">Space planning, design concept, materials, budget, shopping list, timeline, and execution plan — reviewed by an AI critic before it reaches you.</p>
+        <h2 style="color: var(--text-inverse); margin-top: 1rem; max-width: 22ch;">Eight specialized agents. One coordinated plan.</h2>
+        <p style="color: rgba(250,246,239,0.7); margin-top: 1rem; max-width: 46ch;">Each agent owns one part of the plan — space, design, materials, budget, shopping, timeline, execution — and an AI critic reviews the whole thing before it reaches you.</p>
+        <div style="display:flex; gap:1rem; margin-top:2rem; flex-wrap:wrap;">
+          <a href="/planner" class="btn btn-accent btn-lg" style="white-space:nowrap;">Start Renovation Plan</a>
+          <a href="/about" class="btn btn-ghost" style="color: rgba(250,246,239,0.85); border-color: rgba(250,246,239,0.3);">How it works →</a>
+        </div>
       </div>
-      <a href="/planner" class="btn btn-accent btn-lg" style="white-space:nowrap;">Start Renovation Plan</a>
+      <div class="agent-pipeline">
+        {% for step in [
+          ("Design Concept","Style, palette, materials direction"),
+          ("Space Planning","Zones, furniture strategy, flow"),
+          ("Material Intelligence","Recommendations and trade-offs"),
+          ("Budget","Category allocation and risk"),
+          ("Shopping List","Prioritized, categorized purchases"),
+          ("Timeline","Phased schedule, critical path"),
+          ("Execution Plan","Tasks, dependencies, checklists"),
+          ("AI Critic","Reviews the plan, flags conflicts")
+        ] %}
+        <div class="agent-pipeline-step" {% if loop.last %}data-final="true"{% endif %}>
+          <div class="agent-pipeline-num">{{ "%02d"|format(loop.index) }}</div>
+          <div>
+            <div class="agent-pipeline-label">{{ step[0] }}</div>
+            <div class="agent-pipeline-desc">{{ step[1] }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
 </section>
@@ -117,8 +176,55 @@
     {% for item in featured_inspiration %}
     <a href="/inspiration" class="card card-hover" style="padding:0; overflow:hidden;">
       <div class="card-media" style="margin:0; border-radius:0; aspect-ratio:4/3;">
-        <div class="placeholder-art" data-tone="{{ loop.index0 % 5 + 1 }}">
-          <span class="placeholder-label">{{ item.style|replace('_',' ')|title }}</span>
+        <div class="scene-art-wrap" data-tone="{{ loop.index0 % 5 + 1 }}">
+          <svg class="scene-art" viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect class="scene-wall" x="0" y="0" width="300" height="150" />
+            <rect class="scene-floor" x="0" y="150" width="300" height="75" />
+            <rect class="scene-window" x="208" y="18" width="68" height="88" rx="2" />
+            <line class="scene-mullion" x1="242" y1="18" x2="242" y2="106" />
+            <line class="scene-mullion" x1="208" y1="62" x2="276" y2="62" />
+            <ellipse class="scene-rug2" cx="115" cy="182" rx="72" ry="17" />
+
+            {% if item.room_type == 'bedroom' %}
+            <rect class="scene-furn-primary" x="24" y="128" width="150" height="55" rx="6" />
+            <rect class="scene-furn-light" x="30" y="114" width="38" height="20" rx="5" />
+            <rect class="scene-furn-light" x="74" y="114" width="38" height="20" rx="5" />
+            <rect class="scene-furn-secondary" x="74" y="150" width="100" height="33" rx="4" />
+            {% elif item.room_type == 'kitchen' %}
+            <rect class="scene-furn-secondary" x="14" y="108" width="95" height="26" rx="3" />
+            <rect class="scene-furn-primary" x="14" y="138" width="185" height="45" rx="4" />
+            <circle class="scene-furn-light" cx="60" cy="92" r="6" />
+            <circle class="scene-furn-light" cx="105" cy="92" r="6" />
+            <line class="scene-mullion" x1="60" y1="80" x2="60" y2="86" />
+            <line class="scene-mullion" x1="105" y1="80" x2="105" y2="86" />
+            {% elif item.room_type == 'bathroom' %}
+            <rect class="scene-furn-primary" x="24" y="146" width="132" height="37" rx="18" />
+            <circle class="scene-furn-light" cx="182" cy="108" r="22" fill="none" stroke="var(--color-charcoal)" stroke-width="1.4" />
+            <rect class="scene-furn-secondary" x="162" y="150" width="36" height="10" rx="2" />
+            {% elif item.room_type == 'home_office' %}
+            <rect class="scene-furn-primary" x="20" y="150" width="142" height="14" rx="3" />
+            <rect class="scene-furn-secondary" x="70" y="112" width="42" height="30" rx="3" />
+            <rect class="scene-furn-primary" x="152" y="140" width="28" height="43" rx="6" />
+            {% elif item.room_type == 'living_room' %}
+            <rect class="scene-furn-primary" x="26" y="150" width="140" height="38" rx="9" />
+            <rect class="scene-furn-secondary" x="18" y="144" width="15" height="40" rx="4" />
+            <rect class="scene-furn-secondary" x="159" y="144" width="15" height="40" rx="4" />
+            <rect class="scene-furn-light" x="38" y="138" width="38" height="17" rx="4" />
+            <rect class="scene-furn-light" x="82" y="138" width="38" height="17" rx="4" />
+            {% else %}
+            <rect class="scene-furn-primary" x="24" y="104" width="130" height="8" rx="2" />
+            <rect class="scene-furn-primary" x="24" y="138" width="130" height="8" rx="2" />
+            <rect class="scene-furn-primary" x="24" y="172" width="130" height="8" rx="2" />
+            <rect class="scene-furn-secondary" x="36" y="112" width="20" height="24" rx="2" />
+            <rect class="scene-furn-secondary" x="90" y="146" width="26" height="24" rx="2" />
+            {% endif %}
+
+            <rect class="scene-plant2-pot" x="262" y="168" width="18" height="16" rx="2" />
+            <path class="scene-plant2-leaf" d="M271 168 Q261 149 246 143" />
+            <path class="scene-plant2-leaf" d="M271 168 Q281 147 292 138" />
+            <path class="scene-plant2-leaf" d="M271 168 Q271 144 271 128" />
+          </svg>
+          <span class="scene-art-tag">{{ item.room_type|replace('_',' ')|title }}</span>
         </div>
       </div>
       <div style="padding: 1.25rem;">

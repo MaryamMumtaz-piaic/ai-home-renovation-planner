@@ -241,4 +241,31 @@
     payload.id = existingId || undefined;
     return window.Storage.saveProject(payload);
   };
+
+  /* ------------------------------------------------------------------ */
+  /* Scroll reveal — elements with [data-reveal] fade/rise into view.     */
+  /* Staggers siblings sharing a [data-reveal-group] via nth-of-type      */
+  /* delay set in CSS; here we just toggle a class once visible.          */
+  /* ------------------------------------------------------------------ */
+
+  var revealEls = document.querySelectorAll("[data-reveal]");
+  if (revealEls.length) {
+    var prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced || typeof IntersectionObserver === "undefined") {
+      revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+    } else {
+      var revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+      );
+      revealEls.forEach(function (el) { revealObserver.observe(el); });
+    }
+  }
 })();

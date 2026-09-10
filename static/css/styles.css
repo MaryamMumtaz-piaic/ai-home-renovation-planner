@@ -801,6 +801,137 @@ textarea.input { min-height: 120px; padding-block: var(--space-3); resize: verti
 .hero-plan circle.plan-node { fill: var(--accent-primary-strong); }
 
 /* ---------------------------------------------------------------------
+   13b. Hero scene — the blueprint becomes the room (signature element)
+   A single composition: the architectural outline draws in first, then
+   the furnished room resolves inside it — literally staging the product's
+   promise ("plan the renovation before you spend the money"). Final state
+   is fully visible by default; motion is progressive enhancement only.
+   --------------------------------------------------------------------- */
+.hero-scene { position: relative; width: 100%; max-width: 560px; aspect-ratio: 1 / 1; }
+.hero-scene svg { width: 100%; height: 100%; overflow: visible; }
+
+.hero-scene .plan-line { stroke: var(--color-charcoal); stroke-width: 1.1; fill: none; opacity: 0.28; }
+.hero-scene .plan-line-accent { stroke: var(--accent-primary-strong); opacity: 0.5; }
+.hero-scene .plan-dash { stroke-dasharray: 4 5; opacity: 0.22; }
+.hero-scene .plan-dim-text { font-family: var(--font-data); font-size: 7px; letter-spacing: 0.08em; fill: var(--text-tertiary); opacity: 0.55; }
+.hero-scene circle.plan-node { fill: var(--accent-primary-strong); opacity: 0.6; }
+
+.hero-scene .scene-rug { fill: var(--color-terracotta); opacity: 0.24; }
+.hero-scene .scene-floor-fill { fill: var(--color-beige); opacity: 0.55; }
+.hero-scene .scene-sofa-body { fill: var(--color-charcoal); }
+.hero-scene .scene-sofa-cushion { fill: var(--color-warm-white); opacity: 0.9; }
+.hero-scene .scene-sofa-arm { fill: var(--color-brown); }
+.hero-scene .scene-window-frame { stroke: var(--color-charcoal); stroke-width: 1.4; fill: var(--color-warm-white); }
+.hero-scene .scene-window-mullion { stroke: var(--color-charcoal); stroke-width: 1; }
+.hero-scene .scene-ray { stroke: var(--color-brass); stroke-width: 1; opacity: 0.35; }
+.hero-scene .scene-lamp-pole { stroke: var(--color-charcoal); stroke-width: 1.6; stroke-linecap: round; }
+.hero-scene .scene-lamp-shade { fill: var(--color-olive); }
+.hero-scene .scene-lamp-glow { fill: var(--color-brass); opacity: 0.35; }
+.hero-scene .scene-plant-pot { fill: var(--color-brown); }
+.hero-scene .scene-plant-leaf { stroke: var(--color-olive); stroke-width: 2; stroke-linecap: round; fill: none; }
+.hero-scene .scene-art-frame { stroke: var(--color-charcoal); stroke-width: 1.2; fill: var(--color-warm-white); }
+.hero-scene .scene-art-line { stroke: var(--color-terracotta); stroke-width: 1.2; }
+.hero-scene .scene-badge {
+  font-family: var(--font-data); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+  fill: var(--color-charcoal); opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-scene .anim-draw {
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
+    animation: hero-draw 1.1s var(--ease-out) forwards;
+  }
+  .hero-scene .anim-rise {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: hero-rise 0.6s var(--ease-out) forwards;
+    animation-delay: var(--rise-delay, 0.5s);
+  }
+  .hero-scene .anim-fade {
+    opacity: 0;
+    animation: hero-fade 0.7s var(--ease-out) forwards;
+    animation-delay: var(--fade-delay, 0.6s);
+  }
+  .hero-scene .scene-lamp-glow { animation: lamp-pulse 3.2s ease-in-out 1.4s infinite; }
+  .hero-scene .scene-ray { animation: ray-shimmer 4.5s ease-in-out 1.6s infinite; }
+}
+@keyframes hero-draw { to { stroke-dashoffset: 0; } }
+@keyframes hero-rise { to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-fade { to { opacity: 1; } }
+@keyframes lamp-pulse { 0%, 100% { opacity: 0.28; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.12); } }
+@keyframes ray-shimmer { 0%, 100% { opacity: 0.22; } 50% { opacity: 0.45; } }
+
+/* ---------------------------------------------------------------------
+   13c. Agent pipeline visual (AI Planner teaser — right column)
+   A true sequence (8 agents run in order), so numbering here encodes
+   real information rather than decoration.
+   --------------------------------------------------------------------- */
+.agent-pipeline { position: relative; display: flex; flex-direction: column; gap: 0; }
+.agent-pipeline::before {
+  content: "";
+  position: absolute; left: 15px; top: 22px; bottom: 22px; width: 1px;
+  background: linear-gradient(to bottom, rgba(250,246,239,0.35), rgba(250,246,239,0.08));
+}
+.agent-pipeline-step {
+  position: relative;
+  display: flex; align-items: center; gap: var(--space-4);
+  padding-block: var(--space-3);
+}
+.agent-pipeline-num {
+  position: relative; z-index: 1;
+  flex: none; width: 30px; height: 30px; border-radius: var(--radius-full);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-data); font-size: var(--fs-2xs); font-weight: 700; letter-spacing: var(--tracking-wide);
+  background: var(--color-charcoal); border: 1px solid rgba(250,246,239,0.3); color: var(--color-brass);
+}
+.agent-pipeline-step[data-final="true"] .agent-pipeline-num { background: var(--color-brass); border-color: var(--color-brass); color: var(--color-charcoal); }
+.agent-pipeline-label { font-size: var(--fs-sm); color: rgba(250,246,239,0.92); font-weight: 600; }
+.agent-pipeline-desc { font-size: var(--fs-2xs); color: rgba(250,246,239,0.55); margin-top: 1px; }
+
+/* ---------------------------------------------------------------------
+   13d. Illustrated scene art (replaces flat placeholder blocks on cards)
+   Reuses the same flat interior-illustration language as the hero scene,
+   at card scale, so "product imagery" reads as intentional dummy art
+   rather than an empty placeholder.
+   --------------------------------------------------------------------- */
+.scene-art { width: 100%; height: 100%; display: block; }
+.scene-art .scene-wall { fill: var(--sc-wall, var(--color-cream)); }
+.scene-art .scene-floor { fill: var(--sc-floor, var(--color-beige)); }
+.scene-art .scene-rug2 { fill: var(--sc-rug, var(--color-terracotta)); opacity: 0.5; }
+.scene-art .scene-window { fill: var(--color-warm-white); stroke: var(--color-charcoal); stroke-width: 1.2; opacity: 0.85; }
+.scene-art .scene-mullion { stroke: var(--color-charcoal); stroke-width: 0.8; opacity: 0.6; }
+.scene-art .scene-furn-primary { fill: var(--color-charcoal); }
+.scene-art .scene-furn-secondary { fill: var(--sc-accent, var(--color-olive)); }
+.scene-art .scene-furn-light { fill: var(--color-warm-white); opacity: 0.9; }
+.scene-art .scene-plant2-pot { fill: var(--color-brown); }
+.scene-art .scene-plant2-leaf { stroke: var(--color-olive); stroke-width: 1.6; stroke-linecap: round; fill: none; }
+
+.scene-art-wrap[data-tone="1"] { --sc-wall: #EFE7D4; --sc-floor: #E2D6BC; --sc-rug: var(--color-terracotta); --sc-accent: var(--color-olive); }
+.scene-art-wrap[data-tone="2"] { --sc-wall: #E7E0CC; --sc-floor: #D6CAAD; --sc-rug: var(--color-olive); --sc-accent: var(--color-brass); }
+.scene-art-wrap[data-tone="3"] { --sc-wall: #EAE2CB; --sc-floor: #CFC0A0; --sc-rug: var(--color-brass); --sc-accent: var(--color-terracotta); }
+.scene-art-wrap[data-tone="4"] { --sc-wall: #E4DBC0; --sc-floor: #C3B48F; --sc-rug: var(--color-terracotta-dark); --sc-accent: var(--color-olive-dark); }
+.scene-art-wrap[data-tone="5"] { --sc-wall: #ECE3CC; --sc-floor: #D2C2A0; --sc-rug: var(--color-olive-dark); --sc-accent: var(--color-brass); }
+
+.scene-art-wrap { position: relative; width: 100%; height: 100%; }
+.scene-art-tag {
+  position: absolute; left: var(--space-3); bottom: var(--space-3);
+  font-family: var(--font-data); font-size: var(--fs-2xs); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: rgba(43,38,33,0.75); background: rgba(250,246,239,0.82); padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+/* ---------------------------------------------------------------------
+   13e. Scroll reveal utility
+   --------------------------------------------------------------------- */
+[data-reveal] { opacity: 0; transform: translateY(16px); }
+[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] { transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out); }
+}
+[data-reveal="group"] > * { transition-delay: calc(var(--reveal-i, 0) * 90ms); }
+
+/* ---------------------------------------------------------------------
    14. Budget bar visualization (pure CSS)
    --------------------------------------------------------------------- */
 .budget-summary { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
